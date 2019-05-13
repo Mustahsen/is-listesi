@@ -28,6 +28,11 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
@@ -63,6 +68,31 @@
 	                        <goal>install-node-and-npm</goal>
 	                    </goals>
 	                </execution>
+	                <execution>
+					    <id>npm-install</id>
+					    <goals>
+					        <goal>npm</goal>
+					    </goals>
+					</execution>
+					<execution>
+                        <id>npm-build</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>run-script build</arguments>
+                        </configuration>
+                    </execution>
+                    <!--<execution>
+                        <id>npm-test</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>run-script e2e</arguments>
+                        </configuration>
+                        <phase>test</phase>
+					</execution>-->
 	            </executions>
 	        </plugin>
 		</plugins>
