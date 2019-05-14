@@ -7,26 +7,22 @@ import { AppService } from './app.service';
 import { HomeComponent } from './/home/home.component';
 import { LoginComponent } from './/login/login.component';
 import { AppComponent } from './app.component';
-import { ListsComponent } from './lists/lists.component';
 import { HeaderComponent } from './header/header.component';
-import { ListComponent } from './lists/list/list.component';
-import { ListItemsComponent } from './lists/list-items/list-items.component';
-
-const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'home'},
-  { path: 'home', component: HomeComponent},
-  { path: 'login', component: LoginComponent}
-];
+import { TasksComponent } from './tasks/tasks.component';
+import { TaskListComponent } from './tasks/task-list/task-list.component';
+import { TaskDetailComponent } from './tasks/task-detail/task-detail.component';
+import { TaskItemComponent } from './tasks/task-list/task-item/task-item.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     LoginComponent,
-    ListsComponent,
     HeaderComponent,
-    ListComponent,
-    ListItemsComponent
+    TasksComponent,
+    TaskListComponent,
+    TaskDetailComponent,
+    TaskItemComponent
   ],
   imports: [
     BrowserModule,
