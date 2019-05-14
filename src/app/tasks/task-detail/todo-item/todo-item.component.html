@@ -1,21 +1,26 @@
-<div class="row">
-  <div class="col-xs-1">
+<a
+  href="#"
+  class="list-group-item clearfix"
+  (click)="onSelected()">
+  <div class="row">
+    <div class="col-xs-1">
+    </div>
+    <div class="list-group-item-text col-xs-1">
+      <p>{{ todoitem.id }}</p>
+    </div>
+    <div class="list-group-item-heading col-xs-3">
+      <p>{{ todoitem.name }}</p>
+    </div>
+    <div class="list-group-item-text col-xs-3">
+        <p>{{ todoitem.deadline |  date: 'hh a dd.MM.yyyy' }}</p>
+    </div>
+    <div class="list-group-item-text col-xs-1">
+        <p>{{ todoitem.status }}</p>
+    </div>
+    <div class="list-group-item-text col-xs-1">
+      <p>{{ todoitem.dependentItemId }}</p>
+    </div>
+    <div class="col-xs-2">
+    </div>
   </div>
-  <div class="col-xs-1">
-    <p>{{ todoitem.id }}</p>
-  </div>
-  <div class="col-xs-3">
-    <p>{{ todoitem.name }}</p>
-  </div>
-  <div class="col-xs-3">
-      <p>{{ todoitem.deadline |  date: 'hh a dd.MM.yyyy' }}</p>
-  </div>
-  <div class="col-xs-1">
-      <p>{{ todoitem.status }}</p>
-  </div>
-  <div class="col-xs-1">
-    <p>{{ todoitem.dependentItemId }}</p>
-  </div>
-  <div class="col-xs-2">
-  </div>
-</div>
+</a>

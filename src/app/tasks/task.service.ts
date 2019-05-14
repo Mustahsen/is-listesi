@@ -23,6 +23,7 @@ export class TaskService{
     }
 
     taskSelected = new EventEmitter<Task>();
+    toDoItemSelected = new EventEmitter<ToDoItem>();
 
     onToDoItemAdded(selectedTask: Task, toDoItem: ToDoItem){
         selectedTask.todoitems.push(toDoItem);
