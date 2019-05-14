@@ -1,7 +1,11 @@
 <div class="row">
-  <div class="row">
-    <div class="col-xs-12">
-      <h1>{{ task.name }}</h1>
-    </div>
+  <div class="col-xs-12">
+    <button class="btn btn-success" type="submit" (click)="onAddToDoItem()">New TO-DO Item</button>
   </div>
+</div>
+<hr>
+<div class="row">
+  <app-todo-item
+    *ngFor="let todoitemEl of task.todoitems"
+        [todoitem]="todoitemEl"></app-todo-item>
 </div>
