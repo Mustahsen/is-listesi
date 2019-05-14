@@ -1,28 +1,15 @@
 package com.mergen;
 
-import java.security.Principal;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
-@RestController
+//@RestController
 public class IsListesiApplication extends SpringBootServletInitializer {
 	
-	@RequestMapping("/user")
+	/*@RequestMapping("/user")
 	public Principal user(Principal user) {
 		return user;
 	}
@@ -48,7 +35,7 @@ public class IsListesiApplication extends SpringBootServletInitializer {
 	      		.antMatchers("/index.html", "/", "/home", "/login").permitAll()
 	      		.anyRequest().authenticated();
 	    }
-	  }
+    }*/
 
 	
 	@Override
