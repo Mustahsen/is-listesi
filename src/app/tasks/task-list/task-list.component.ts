@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 
 import { Task } from '../task.model';
 import { TaskService } from '../task.service';
@@ -9,7 +9,6 @@ import { TaskService } from '../task.service';
   styleUrls: ['./task-list.component.css']
 })
 export class TaskListComponent implements OnInit {
-  @Output() taskWasSelected = new EventEmitter<Task>();
   tasks: Task[];
 
   constructor(private taskService: TaskService) { }
@@ -17,8 +16,4 @@ export class TaskListComponent implements OnInit {
   ngOnInit() {
     this.tasks = this.taskService.getTasks();
   }
-
-  onTaskSelected(task: Task) {
-    this.taskWasSelected.emit(task);
-   }
 }

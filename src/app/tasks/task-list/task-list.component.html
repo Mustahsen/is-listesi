@@ -8,7 +8,6 @@
     <div class="col-xs-12">
       <app-task-item
         *ngFor="let taskEl of tasks"
-        [task]="taskEl"
-        (taskSelected)="onTaskSelected(taskEl)"></app-task-item>
+        [task]="taskEl"></app-task-item>
     </div>
   </div>
