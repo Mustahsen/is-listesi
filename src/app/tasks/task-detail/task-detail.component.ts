@@ -24,7 +24,7 @@ export class TaskDetailComponent implements OnInit {
   constructor(private taskService: TaskService) { }
 
   ngOnInit() {
-    this.subscription = this.taskService.editStarted
+    this.subscription = this.taskService.toDoItemEditStarted
       .subscribe(
         (index: number) => {
           this.itemIndex = index;
@@ -44,14 +44,14 @@ export class TaskDetailComponent implements OnInit {
   }
 
   onEditItem(index: number){
-    this.taskService.editStarted.next(index);
+    this.taskService.toDoItemEditStarted.next(index);
   }
 
   onSubmit(form: NgForm) {
     const value = form.value;
     const newToDoItem = new ToDoItem(6, value.name, value.deadline, value.status, null);
     if (this.editMode) {
-      this.taskService.updateIngredient(this.task, this.itemIndex, newToDoItem);
+      this.taskService.updateToDoItem(this.task, this.itemIndex, newToDoItem);
     } else {
       this.taskService.addToDoItem(this.task, newToDoItem);
     }
@@ -65,7 +65,7 @@ export class TaskDetailComponent implements OnInit {
   }
 
   onDelete() {
-    this.taskService.deleteIngredient(this.task, this.itemIndex);
+    this.taskService.deleteToDoItem(this.task, this.itemIndex);
     this.onClear();
   }
 
