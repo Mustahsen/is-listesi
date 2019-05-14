@@ -1,11 +1,53 @@
 <div class="row">
   <div class="col-xs-12">
-    <button class="btn btn-success" type="submit" (click)="onAddToDoItem()">New TO-DO Item</button>
+  <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+    <div class="row">
+      <div class="col-sm-4 form-group">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          id="name"
+          class="form-control"
+          name="name"
+          ngModel
+          required
+          >
+      </div>
+      <div class="col-sm-4 form-group">
+        <label for="deadline">Deadline</label>
+        <input
+          type="date"
+          id="deadline"
+          class="form-control"
+          name="deadline"
+          ngModel
+          required
+          >
+      </div>
+      <div class="col-sm-1 form-group">
+        <label for="status">Status</label>
+        <input
+          type="checkbox"
+          id="status"
+          class="form-control"
+          name="status"
+          ngModel
+          >
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <button class="btn btn-success" type="submit" [disabled]="!f.valid">{{ editMode ? 'Update' : 'Add' }}</button>
+        <button class="btn btn-danger" type="button" (click)="onDelete()" *ngIf="editMode">Delete</button>
+        <button class="btn btn-primary" type="button" (click)="onClear()">Clear</button>
+      </div>
+    </div>
+  </form>
   </div>
 </div>
 <hr>
 <div class="row">
   <app-todo-item
-    *ngFor="let todoitemEl of task.todoitems"
-        [todoitem]="todoitemEl"></app-todo-item>
+    *ngFor="let todoitemEl of task.todoitems; let i = index"
+    [todoitem]="todoitemEl" (click)="onEditItem(i)"></app-todo-item>
 </div>

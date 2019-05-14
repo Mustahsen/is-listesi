@@ -16,7 +16,7 @@ import { TaskItemComponent } from './tasks/task-list/task-item/task-item.compone
 import { TodoItemComponent } from './tasks/task-detail/todo-item/todo-item.component';
 
 const routes: Routes = [
-  { path: '', component: TasksComponent } 
+  { path: '', component: TasksComponent }
 ];
 
 @NgModule({
