@@ -20,9 +20,15 @@ public class ToDoListController {
 	ToDoListService toDoListService;
 	
 	@CrossOrigin(origins = "http://localhost:4200")
-	@RequestMapping(method = RequestMethod.GET, value = "/task-list")
+	@RequestMapping(method = RequestMethod.GET, value = "/task-list/all/")
 	public List<ToDoList> getAllToDoLists(){
 		return toDoListService.getAllToDoLists();
+	}
+	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(method = RequestMethod.GET, value = "/task-list/")
+	public ToDoList getToDoList(@RequestParam("id") Long id){
+		return toDoListService.getToDoListById(id);
 	}
 	
 	@CrossOrigin(origins = "http://localhost:4200")
@@ -31,12 +37,6 @@ public class ToDoListController {
 		toDoList.setUser(new User(1L, null, null, null, null));
 		toDoListService.addToDoList(toDoList);
 		return toDoList;
-	}
-	
-	@CrossOrigin(origins = "http://localhost:4200")
-	@RequestMapping(method = RequestMethod.GET, value = "/task-list/")
-	public ToDoList getToDoList(@RequestParam("id") Long id){
-		return toDoListService.getToDoListById(id);
 	}
 
 	@CrossOrigin(origins = "http://localhost:4200")

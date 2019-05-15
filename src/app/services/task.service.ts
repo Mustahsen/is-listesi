@@ -10,6 +10,7 @@ import { HttpErrorHandler, HandleError } from '../http-error-handler.service';
 
 @Injectable()
 export class TaskService{
+    taskListUrl = 'http://localhost/task-list/';  // URL to web api
     private subject = new Subject<Task>();
     private handleError: HandleError;
 
@@ -18,7 +19,7 @@ export class TaskService{
     }
 
     getTasks (): Observable<Task[]> {
-        return this.http.get<Task[]>('http://localhost/task-list')
+        return this.http.get<Task[]>(this.taskListUrl + 'all/')
             .pipe(
                 catchError(this.handleError('getTasks', []))
             );
@@ -26,11 +27,11 @@ export class TaskService{
 
     getTask (task: Task){
         const  params = new  HttpParams().set('id', task.id.toString());
-        return this.http.get('http://localhost/task-list/', {params});
+        return this.http.get(this.taskListUrl, {params});
     }
 
     addTask (task: Task): Observable<Task> {
-        return this.http.post<Task>('http://localhost/task-list/', task)
+        return this.http.post<Task>(this.taskListUrl, task)
             .pipe(
                 catchError(this.handleError('addTask', task))
             );
@@ -38,7 +39,7 @@ export class TaskService{
 
     updateTask (task: Task): Observable<Task> {
         const  params = new  HttpParams().set('id', task.id.toString());
-        return this.http.put<Task>('http://localhost/task-list/', task, { params })
+        return this.http.put<Task>(this.taskListUrl, task, { params })
             .pipe(
                 catchError(this.handleError('updateTask', task))
             );
@@ -47,7 +48,7 @@ export class TaskService{
 
     deleteTask(task: Task) {
         const  params = new  HttpParams().set('id', task.id.toString());
-        return this.http.delete<Task>('http://localhost/task-list/', { params })
+        return this.http.delete<Task>(this.taskListUrl, { params })
             .pipe(
                 catchError(this.handleError('deleteTask', task))
             );
