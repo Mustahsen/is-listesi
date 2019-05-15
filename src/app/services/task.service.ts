@@ -4,7 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { Task } from './task.model';
+import { Task } from '../models/task.model';
 
 import { HttpErrorHandler, HandleError } from '../http-error-handler.service';
 

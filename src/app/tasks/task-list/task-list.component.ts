@@ -4,8 +4,8 @@ import { map } from 'rxjs/operators';
 import { HttpResponse } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
 
-import { Task } from '../task.model';
-import { TaskService } from '../task.service';
+import { Task } from '../../models/task.model';
+import { TaskService } from '../../services/task.service';
 
 @Component({
   selector: 'app-task-list',

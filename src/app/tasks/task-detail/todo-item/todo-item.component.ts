@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ToDoItem } from '../../todoitem.model';
-import { TaskService } from '../../task.service';
+import { ToDoItem } from '../../../models/todoitem.model';
+import { TaskService } from '../../../services/task.service';
 
 @Component({
   selector: 'app-todo-item',

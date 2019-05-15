@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { TaskService } from './task.service';
-import { Task } from './task.model';
+import { TaskService } from '../services/task.service';
+import { Task } from '../models/task.model';
 
 @Component({
   selector: 'app-tasks',
