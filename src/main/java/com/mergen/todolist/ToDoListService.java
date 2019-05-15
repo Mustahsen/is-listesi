@@ -1,5 +1,8 @@
 package com.mergen.todolist;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,8 +14,20 @@ public class ToDoListService {
 	@Autowired
 	ToDoListRepository toDoListRepository;
 	
-	public void getToDoListsForUser(User user){
-		toDoListRepository.findByUser(user);
+	public List<ToDoList> getToDoListsForUser(User user){
+		List<ToDoList> toDoList = new ArrayList<ToDoList>();
+		toDoListRepository.findByUser(user).forEach(toDoList::add);
+		return toDoList;
+	}
+	
+	public List<ToDoList> getAllToDoLists(){
+		List<ToDoList> toDoList = new ArrayList<ToDoList>();
+		toDoListRepository.findAll().forEach(toDoList::add);
+		return toDoList;
+	}
+	
+	public ToDoList getToDoListById(Long id){
+		return toDoListRepository.findById(id).orElse(null);
 	}
 	
 	public void addToDoList(ToDoList toDoList){
@@ -23,7 +38,7 @@ public class ToDoListService {
 		toDoListRepository.save(toDoList);
 	}
 	
-	public void deleteToDoList(ToDoList toDoList){
-		toDoListRepository.delete(toDoList);
+	public void deleteToDoListById(Long id){
+		toDoListRepository.deleteById(id);
 	}
 }

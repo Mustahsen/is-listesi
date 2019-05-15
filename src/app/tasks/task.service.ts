@@ -1,83 +1,64 @@
-import { Task } from './task.model'
-import { EventEmitter } from '@angular/core';
-import { ToDoItem } from './todoitem.model';
-import { Subject } from 'rxjs';
+import { EventEmitter, Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
+import { Observable, Subject } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+
+import { Task } from './task.model';
+
+import { HttpErrorHandler, HandleError } from '../http-error-handler.service';
+
+@Injectable()
 export class TaskService{
-    taskSelected = new EventEmitter<Task>();
-    toDoItemSelected = new EventEmitter<ToDoItem>();
-    toDoItemsChanged = new Subject<ToDoItem[]>();
-    tasksChanged = new Subject<Task[]>();
-    toDoItemEditStarted = new Subject<number>();
-    taskEditStarted = new Subject<number>();
+    private subject = new Subject<Task>();
+    private handleError: HandleError;
 
-    private tasks: Task[] = [
-        new Task(1, 'A Test Task', [{id: 1, 
-                                     name: 'ToDo Item', 
-                                     deadline: new Date(), 
-                                     status: true, 
-                                     dependentItemId: null},
-                                     {id: 2, 
-                                        name: 'ToDo Item2', 
-                                        deadline: new Date(), 
-                                        status: false, 
-                                        dependentItemId: null}]),
-
-        new Task(2, 'Another Test Task', [])
-    ];
-
-    getTasks(){
-        return this.tasks.slice();
+    constructor(private http: HttpClient, httpErrorHandler: HttpErrorHandler) {
+        this.handleError = httpErrorHandler.createHandleError('TaskService');
     }
 
-    getTask(index: number){
-        return this.tasks[index];
+    getTasks (): Observable<Task[]> {
+        return this.http.get<Task[]>('http://localhost/task-list')
+            .pipe(
+                catchError(this.handleError('getTasks', []))
+            );
     }
 
-    onToDoItemAdded(selectedTask: Task, toDoItem: ToDoItem){
-        selectedTask.todoitems.push(toDoItem);
+    getTask (task: Task){
+        const  params = new  HttpParams().set('id', task.id.toString());
+        return this.http.get('http://localhost/task-list/', {params});
     }
 
-    getToDoItems(task: Task) {
-        return task.todoitems.slice();
+    addTask (task: Task): Observable<Task> {
+        return this.http.post<Task>('http://localhost/task-list/', task)
+            .pipe(
+                catchError(this.handleError('addTask', task))
+            );
     }
 
-    getToDoItem(task: Task, index: number) {
-        return task.todoitems[index];
+    updateTask (task: Task): Observable<Task> {
+        const  params = new  HttpParams().set('id', task.id.toString());
+        return this.http.put<Task>('http://localhost/task-list/', task, { params })
+            .pipe(
+                catchError(this.handleError('updateTask', task))
+            );
+
     }
 
-    addToDoItem(task: Task, toDoItem: ToDoItem) {
-        task.todoitems.push(toDoItem);
-        this.toDoItemsChanged.next(task.todoitems.slice());
+    deleteTask(task: Task) {
+        const  params = new  HttpParams().set('id', task.id.toString());
+        return this.http.delete<Task>('http://localhost/task-list/', { params })
+            .pipe(
+                catchError(this.handleError('deleteTask', task))
+            );
     }
 
-    addToDoItems(task: Task, toDoItems: ToDoItem[]) {
-        task.todoitems.push(...toDoItems);
-        this.toDoItemsChanged.next(task.todoitems.slice());
+    sendSelectedTaskMessage(task: Task){
+        this.subject.next(task);
     }
 
-    updateToDoItem(task: Task, index: number, toDoItem: ToDoItem) {
-        task.todoitems[index] = toDoItem;
-        this.toDoItemsChanged.next(task.todoitems.slice());
+    getSelectedTaskMessage(): Observable<Task> {
+        return this.subject.asObservable();
     }
 
-    deleteToDoItem(task: Task, index: number) {
-        task.todoitems.splice(index, 1);
-        this.toDoItemsChanged.next(task.todoitems.slice());
-    }
-
-    addTask(task: Task) {
-        this.tasks.push(task);
-        this.tasksChanged.next(this.tasks.slice());
-    }
-
-    updateTask(task: Task, index: number) {
-        this.tasks[index] = task
-        this.tasksChanged.next(this.tasks.slice());
-    }
-
-    deleteTask(index: number) {
-        this.tasks.splice(index, 1);
-        this.tasksChanged.next(this.tasks.slice());
-    }
 }

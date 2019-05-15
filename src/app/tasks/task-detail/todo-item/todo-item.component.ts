@@ -16,6 +16,5 @@ export class TodoItemComponent implements OnInit {
   }
 
   onSelected() {
-    this.taskService.toDoItemSelected.emit(this.todoitem);
   }
 }

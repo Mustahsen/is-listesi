@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Task } from '../../task.model';
-import { TaskService } from '../../task.service';
 
 @Component({
   selector: 'app-task-item',
@@ -10,13 +9,9 @@ import { TaskService } from '../../task.service';
 export class TaskItemComponent implements OnInit {
   @Input() task: Task;
 
-  constructor(private taskService: TaskService) { }
+  constructor() { }
 
   ngOnInit() {
-  }
-
-  onSelected() {
-    this.taskService.taskSelected.emit(this.task);
   }
 
 }

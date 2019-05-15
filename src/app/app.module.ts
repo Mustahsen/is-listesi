@@ -15,6 +15,9 @@ import { TaskDetailComponent } from './tasks/task-detail/task-detail.component';
 import { TaskItemComponent } from './tasks/task-list/task-item/task-item.component';
 import { TodoItemComponent } from './tasks/task-detail/todo-item/todo-item.component';
 
+import { HttpErrorHandler }     from './http-error-handler.service';
+import { MessageService }       from './message.service';
+
 const routes: Routes = [
   { path: '', component: TasksComponent }
 ];
@@ -37,7 +40,11 @@ const routes: Routes = [
     FormsModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [AppService],
+  providers: [
+    AppService,
+    HttpErrorHandler,
+    MessageService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

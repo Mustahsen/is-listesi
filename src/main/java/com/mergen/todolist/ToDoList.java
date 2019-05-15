@@ -28,13 +28,12 @@ public class ToDoList {
 	@Column(name="name")
 	private String name;
 	
-	@JsonBackReference
 	@OneToMany(mappedBy = "toDoList")
 	List<Item> itemList;
 	
-	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "user_id")
+	@JsonBackReference
 	private User user;
 
 	public ToDoList() {

@@ -16,19 +16,19 @@
       </div>
       <div class="row">
         <div class="col-xs-12">
-          <button class="btn btn-success" type="submit" [disabled]="!f.valid">{{ editMode ? 'Update' : 'Add' }}</button>
-          <button class="btn btn-danger" type="button" (click)="onDelete()" *ngIf="editMode">Delete</button>
-          <button class="btn btn-primary" type="button" (click)="onClear()">Clear</button>
+          <button class="btn btn-success" type="submit" [disabled]="!f.valid">{{ editTask ? 'Update' : 'Add' }}</button>
+          <button class="btn btn-danger" type="button" (click)="deleteTask()" *ngIf="editTask">Delete</button>
+          <button class="btn btn-primary" type="button" (click)="clearSelection()">Clear</button>
         </div>
       </div>
     </form>
   </div>
-</div>
+</div>   
 <hr>
 <div class="row">
   <div class="col-xs-12">
-    <app-task-item
-      *ngFor="let taskEl of tasks; index as i"
-      [task]="taskEl" (click)="onEditItem(i)"></app-task-item>
+    <app-task-item [ngStyle]="{ 'background' : (editTask === taskEl) ? ' #d35400' : 'white', display: 'block'}"
+      *ngFor="let taskEl of tasks"
+      [task]="taskEl" (click)="edit(taskEl)"></app-task-item>
   </div>
 </div>

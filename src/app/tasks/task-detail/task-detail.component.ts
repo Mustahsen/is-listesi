@@ -14,59 +14,13 @@ import { NgForm } from '@angular/forms';
 export class TaskDetailComponent implements OnInit {
   @Input() task: Task;
   @ViewChild('f') form: NgForm;
-  subscription: Subscription;
-  editMode = false;
-  itemIndex: number;
-  editedItem: ToDoItem;
-
-
 
   constructor(private taskService: TaskService) { }
 
   ngOnInit() {
-    this.subscription = this.taskService.toDoItemEditStarted
-      .subscribe(
-        (index: number) => {
-          this.itemIndex = index;
-          this.editMode = true;
-          this.editedItem = this.taskService.getToDoItem(this.task, index);
-          this.form.setValue({
-            name: this.editedItem.name,
-            deadline: this.editedItem.deadline,
-            status: this.editedItem.status
-          })
-        }
-      );
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
-
-  onEditItem(index: number){
-    this.taskService.toDoItemEditStarted.next(index);
-  }
-
-  onSubmit(form: NgForm) {
-    const value = form.value;
-    const newToDoItem = new ToDoItem(6, value.name, value.deadline, value.status, null);
-    if (this.editMode) {
-      this.taskService.updateToDoItem(this.task, this.itemIndex, newToDoItem);
-    } else {
-      this.taskService.addToDoItem(this.task, newToDoItem);
-    }
-    this.editMode = false;
-    form.reset();
-  }
-
-  onClear() {
-    this.form.reset();
-    this.editMode = false;
-  }
-
-  onDelete() {
-    this.taskService.deleteToDoItem(this.task, this.itemIndex);
-    this.onClear();
   }
 
 

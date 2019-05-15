@@ -10,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.mergen.todolist.ToDoList;
 
 @Entity
@@ -31,7 +30,6 @@ public class User {
 	@Column(name="password")
 	private String password;
 	
-	@JsonBackReference
 	@OneToMany(mappedBy = "user")
 	List<ToDoList> toDoList;
 	

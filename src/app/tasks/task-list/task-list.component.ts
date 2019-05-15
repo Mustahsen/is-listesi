@@ -1,9 +1,11 @@
 import { Component, OnInit, OnDestroy, Input, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { HttpResponse } from '@angular/common/http';
+import { NgForm } from '@angular/forms';
 
 import { Task } from '../task.model';
 import { TaskService } from '../task.service';
-import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-task-list',
@@ -12,69 +14,64 @@ import { NgForm } from '@angular/forms';
 })
 export class TaskListComponent implements OnInit {
   tasks: Task[];
+  editTask: Task;
   @ViewChild('f') form: NgForm;
-  subscription: Subscription;
-  editMode = false;
-  taskIndex: number;
-  editedTask: Task;
 
   constructor(private taskService: TaskService) { }
 
   ngOnInit() {
-    this.tasks = this.taskService.getTasks();
-
-    this.subscription = this.taskService.taskEditStarted
-      .subscribe(
-        (index: number) => {
-          this.taskIndex = index;
-          this.editMode = true;
-          this.editedTask = this.taskService.getTask(index);
-          this.form.setValue({
-            name: this.editedTask.name
-          })
-        }
-      );
+    this.getTasks();
     
-    
-    this.subscription = this.taskService.tasksChanged
-      .subscribe(
-        (tasks: Task[]) => {
-          this.tasks = tasks;
-        }
-    );
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+  getTasks(){
+    this.taskService.getTasks()
+      .subscribe(tasks => this.tasks = tasks);
   }
 
-  onEditItem(index: number){
-    this.taskService.taskEditStarted.next(index);
+  addTask (name: string): void{
+    this.editTask = undefined;
+    name = name.trim();
+    if(!name) { return; }
+
+    const newTask: Task = new Task(null, name, null);
+    this.taskService.addTask(newTask)
+      .subscribe(task => this.tasks.push(task));
+  }
+
+  updateTask (task: Task) {
+    this.taskService.updateTask(this.editTask)
+      .subscribe(task => {
+        const ix = task ? this.tasks.findIndex(t => t.id === task.id) : -1;
+        if (ix > -1) { this.tasks[ix] = task; }
+      });
+    this.editTask = undefined;
+  }
+
+  deleteTask(): void {
+    this.tasks = this.tasks.filter(t => t !== this.editTask);
+    this.taskService.deleteTask(this.editTask).subscribe();
+    this.editTask = undefined;
+  }
+
+  edit(task){
+    this.editTask = task;
+    this.taskService.sendSelectedTaskMessage(task);
   }
 
   onSubmit(form: NgForm) {
-    const value = form.value;
-    var task = new Task(null, value.name, null);
-    if (this.editMode) {
-      task.id = this.editedTask.id;
-      task.todoitems = this.editedTask.todoitems;
-      this.taskService.updateTask(task, this.taskIndex);
+    const name = form.value.name;
+    if (this.editTask) {
+      this.editTask.name = name;
+      this.updateTask(this.editTask);
     } else {
-      this.taskService.addTask(task);
+      this.addTask(name);
     }
-    this.editMode = false;
-    form.reset();
   }
 
-  onClear() {
-    this.form.reset();
-    this.editMode = false;
+  clearSelection(){
+    this.editTask = undefined;
+    this.form.controls.name.reset();
   }
-
-  onDelete() {
-    this.taskService.deleteTask(this.taskIndex);
-    this.onClear();
-  }
-
 }
 

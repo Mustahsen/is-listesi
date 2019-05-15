@@ -12,7 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import com.mergen.todolist.ToDoList;
 
 @Entity
@@ -39,9 +38,9 @@ public class Item {
 	@Column(name="dependent_item_id")
 	private Long dependentItemId;
 	
-	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "list_id")
+	@JsonBackReference
 	private ToDoList toDoList;
 	
 }
