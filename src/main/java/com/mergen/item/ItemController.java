@@ -8,16 +8,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.mergen.todolist.ToDoList;
 
+@RestController
 public class ItemController {
 	
 	@Autowired
 	ItemService itemService;
 	
 	@CrossOrigin(origins = "http://localhost:4200")
-	@RequestMapping(method = RequestMethod.GET, value = "/items/all")
+	@RequestMapping(method = RequestMethod.GET, value = "/items/all/")
 	public List<Item> getAllItemsForList(@RequestParam("toDoListId") Long toDoListId){
 		return itemService.getItemsForToDoList(toDoListId);
 	}

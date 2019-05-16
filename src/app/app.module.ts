@@ -5,6 +5,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AppService } from './app.service';
+import { ItemService } from './services/item.service';
+import { TaskService } from './services/task.service';
 import { HomeComponent } from './/home/home.component';
 import { LoginComponent } from './/login/login.component';
 import { AppComponent } from './app.component';
@@ -44,6 +46,8 @@ const routes: Routes = [
     AppService,
     HttpErrorHandler,
     MessageService,
+    TaskService, 
+    ItemService
   ],
   bootstrap: [AppComponent]
 })

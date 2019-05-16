@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mergen.item.ItemService;
 import com.mergen.user.User;
 
 @RestController
@@ -18,6 +19,9 @@ public class ToDoListController {
 	
 	@Autowired
 	ToDoListService toDoListService;
+	
+	@Autowired
+	ItemService itemService;
 	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(method = RequestMethod.GET, value = "/task-list/all/")
@@ -50,6 +54,7 @@ public class ToDoListController {
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(method = RequestMethod.DELETE, value = "/task-list/")
 	public void deleteToDoList(@RequestParam("id") Long id){
+		itemService.getItemsForToDoList(id).forEach(item -> itemService.deleteItemById(item.getId()));
 		toDoListService.deleteToDoListById(id);
 	}
 	

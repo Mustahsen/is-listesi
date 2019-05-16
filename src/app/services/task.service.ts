@@ -8,7 +8,9 @@ import { Task } from '../models/task.model';
 
 import { HttpErrorHandler, HandleError } from '../http-error-handler.service';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root',
+  })
 export class TaskService{
     taskListUrl = 'http://localhost/task-list/';  // URL to web api
     private subject = new Subject<Task>();
@@ -27,7 +29,11 @@ export class TaskService{
 
     getTask (task: Task){
         const  params = new  HttpParams().set('id', task.id.toString());
-        return this.http.get(this.taskListUrl, {params});
+        return this.http.get(this.taskListUrl, {params})
+            .pipe(
+                catchError(this.handleError('getTask', []))
+
+            );
     }
 
     addTask (task: Task): Observable<Task> {
@@ -52,6 +58,14 @@ export class TaskService{
             .pipe(
                 catchError(this.handleError('deleteTask', task))
             );
+    }
+
+    fetchTask(task: Task){
+        this.getTask(task).subscribe(
+            (task: Task) => {
+                this.sendSelectedTaskMessage(task);
+            }
+        );
     }
 
     sendSelectedTaskMessage(task: Task){

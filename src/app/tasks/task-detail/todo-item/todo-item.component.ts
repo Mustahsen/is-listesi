@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ToDoItem } from '../../../models/todoitem.model';
+import { Item } from '../../../models/item.model';
 import { TaskService } from '../../../services/task.service';
 
 @Component({
@@ -8,7 +8,7 @@ import { TaskService } from '../../../services/task.service';
   styleUrls: ['./todo-item.component.css']
 })
 export class TodoItemComponent implements OnInit {
-  @Input() todoitem: ToDoItem;
+  @Input() item: Item;
 
   constructor(private taskService: TaskService) { }
 

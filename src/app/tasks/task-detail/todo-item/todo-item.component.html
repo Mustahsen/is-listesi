@@ -1,19 +1,19 @@
-<a
+<a style="background-color: transparent"
   href="#"
   class="list-group-item clearfix"
   (click)="onSelected()">
   <div class="row">
-    <div class="list-group-item-heading col-sm-4">
-      <p>{{ todoitem.name }}</p>
-    </div>
-    <div class="list-group-item-text col-sm-4">
-        <p>{{ todoitem.deadline |  date: 'hh a dd.MM.yyyy' }}</p>
+    <div class="list-group-item-heading col-sm-3">
+      <p>{{ item.name }}</p>
     </div>
     <div class="list-group-item-text col-sm-3">
-        <p>{{ todoitem.status ? 'Complete' : 'Incomplete'}} </p>
+        <p>{{ item.deadline |  date: 'dd.MM.yyyy' }}</p>
     </div>
-    <div class="list-group-item-text col-sm-1">
-      <p>{{ todoitem.dependentItemId }}</p>
+    <div class="list-group-item-text col-sm-3">
+        <p>{{ item.status ? 'Complete' : 'Incomplete'}} </p>
+    </div>
+    <div class="list-group-item-text col-sm-3">
+      <p>{{ item.dependentItemId }}</p>
     </div>
     <div class="col-xs-2">
     </div>

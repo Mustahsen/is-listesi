@@ -6,6 +6,7 @@ import { NgForm } from '@angular/forms';
 
 import { Task } from '../../models/task.model';
 import { TaskService } from '../../services/task.service';
+import { ItemService } from '../../services/item.service';
 
 @Component({
   selector: 'app-task-list',
@@ -17,11 +18,10 @@ export class TaskListComponent implements OnInit {
   editTask: Task;
   @ViewChild('f') form: NgForm;
 
-  constructor(private taskService: TaskService) { }
+  constructor(private taskService: TaskService, private itemService: ItemService) { }
 
   ngOnInit() {
     this.getTasks();
-    
   }
 
   getTasks(){
@@ -51,12 +51,13 @@ export class TaskListComponent implements OnInit {
   deleteTask(): void {
     this.tasks = this.tasks.filter(t => t !== this.editTask);
     this.taskService.deleteTask(this.editTask).subscribe();
-    this.editTask = undefined;
+    this.clearSelection();
   }
 
   edit(task){
     this.editTask = task;
-    this.taskService.sendSelectedTaskMessage(task);
+    this.form.controls['name'].setValue(this.editTask.name);
+    this.taskService.sendSelectedTaskMessage(this.editTask);
   }
 
   onSubmit(form: NgForm) {
@@ -72,6 +73,7 @@ export class TaskListComponent implements OnInit {
   clearSelection(){
     this.editTask = undefined;
     this.form.controls.name.reset();
+    this.taskService.sendSelectedTaskMessage(this.editTask);
   }
 }
 
