@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './/login/login.component';
 import { AppComponent } from './app.component';
@@ -19,9 +19,9 @@ import { HttpErrorHandler }     from './http-error-handler.service';
 import { MessageService }       from './message.service';
 import { AuthenticationService } from './services/authentication.service';
 import { LogoutComponent } from './logout/logout.component';
-import { AuthorizationGuardService } from './services/authorizationGuard.service';
 import { RegisterComponent } from './register/register.component';
 import { UserService } from './services/user.service';
+import { BasicAuthHttpInterceptorService } from './services/basic-auth-http-interceptor.service';
 
 const routes: Routes = [
   { path: '', component: TasksComponent },
@@ -55,7 +55,8 @@ const routes: Routes = [
     TaskService, 
     ItemService,
     AuthenticationService,
-    UserService
+    UserService,
+    { provide:HTTP_INTERCEPTORS, useClass:BasicAuthHttpInterceptorService, multi:true }
   ],
   bootstrap: [AppComponent]
 })

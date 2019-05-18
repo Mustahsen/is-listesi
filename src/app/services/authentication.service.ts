@@ -12,22 +12,26 @@ export class AuthenticationService {
 
     constructor(private httpClient: HttpClient) { }
 
-    authenticate(username, password, callback) {
+    authenticate(username, password) {
 
-        const headers = new HttpHeaders({Authorization : 'Basic ' + btoa(username + ':' + password)});
+        sessionStorage.removeItem('username');
+        sessionStorage.removeItem('basicauth');
 
-        this.httpClient.get(this.loginUrl, {headers: headers}).subscribe(response => {
-            console.log(username);
-            console.log(response);
-            if (response['name']) {
-            } else {
-            }
-            return callback && callback();
-        });
+        const authString = 'Basic ' + btoa(username + ':' + password);
+        const headers = new HttpHeaders({Authorization : authString});
+
+        return this.httpClient.get(this.loginUrl, {headers: headers}).pipe(
+            map(userData => {
+                sessionStorage.setItem('username', username);
+                sessionStorage.setItem('basicauth', authString);
+                return userData;
+            })
+        );
     }
 
     isLoggedIn() {
         let user = sessionStorage.getItem('username');
+        console.log(!(user === null))
         return !(user === null);
     }
 
