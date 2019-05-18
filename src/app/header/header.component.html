@@ -5,6 +5,12 @@
         <div class="navbar-header">
           <a href="#" class="navbar-brand">TO-DO List App</a>
         </div>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a *ngIf="authenticationService.isLoggedIn()" routerLink="/">Home</a></li>
+          <li><a *ngIf="!authenticationService.isLoggedIn()" routerLink="/login">Login</a></li>
+          <li><a *ngIf="!authenticationService.isLoggedIn()" routerLink="/register">Register</a></li>
+          <li><a *ngIf="authenticationService.isLoggedIn()" class="nav-link" routerLink="/logout">Logout</a></li>
+        </ul>
       </div>
     </nav>
   </div>

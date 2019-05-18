@@ -14,7 +14,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.mergen.item.Item;
-import com.mergen.user.User;
+import com.mergen.user.Users;
 
 @Entity
 @Table(name="to_do_lists")
@@ -34,12 +34,12 @@ public class ToDoList {
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	@JsonBackReference
-	private User user;
+	private Users user;
 
 	public ToDoList() {
 	}
 
-	public ToDoList(Long id, String name, List<Item> itemList, User user) {
+	public ToDoList(Long id, String name, List<Item> itemList, Users user) {
 		this.id = id;
 		this.name = name;
 		this.itemList = itemList;
@@ -70,11 +70,11 @@ public class ToDoList {
 		this.itemList = itemList;
 	}
 
-	public User getUser() {
+	public Users getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(Users user) {
 		this.user = user;
 	}
 }

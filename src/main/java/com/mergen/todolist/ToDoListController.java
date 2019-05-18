@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mergen.item.ItemService;
-import com.mergen.user.User;
+import com.mergen.user.Users;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class ToDoListController {
 	
 	
@@ -23,35 +24,30 @@ public class ToDoListController {
 	@Autowired
 	ItemService itemService;
 	
-	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(method = RequestMethod.GET, value = "/task-list/all/")
 	public List<ToDoList> getAllToDoLists(){
 		return toDoListService.getAllToDoLists();
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(method = RequestMethod.GET, value = "/task-list/")
 	public ToDoList getToDoList(@RequestParam("id") Long id){
 		return toDoListService.getToDoListById(id);
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(method = RequestMethod.POST, value = "/task-list/")
 	public ToDoList addToDoList(@RequestBody ToDoList toDoList){
-		toDoList.setUser(new User(1L, null, null, null, null));
+		toDoList.setUser(new Users(1L, null, null, null, null, null));
 		toDoListService.addToDoList(toDoList);
 		return toDoList;
 	}
 
-	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(method = RequestMethod.PUT, value = "/task-list/")
 	public void updateToDoList(@RequestParam("id") Long id, @RequestBody ToDoList toDoList){
 		toDoList.setId(id);
-		toDoList.setUser(new User(1L, null, null, null, null));
+		toDoList.setUser(new Users(1L, null, null, null, null, null));
 		toDoListService.updateToDoList(toDoList);
 	}
 
-	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(method = RequestMethod.DELETE, value = "/task-list/")
 	public void deleteToDoList(@RequestParam("id") Long id){
 		itemService.getItemsForToDoList(id).forEach(item -> itemService.deleteItemById(item.getId()));

@@ -13,7 +13,7 @@ import { HttpErrorHandler, HandleError } from '../http-error-handler.service';
     providedIn: 'root',
 })
 export class ItemService{
-    ItemUrl = 'http://localhost/items/';  // URL to web api
+    itemUrl = 'http://localhost/items/';
     private subjectSingular = new Subject<Item>();
     private subjectPlural = new Subject<Item[]>();
     private handleError: HandleError;
@@ -25,7 +25,7 @@ export class ItemService{
     
     getItems (task: Task): Observable<Item[]> {
         const  params = new  HttpParams().set('toDoListId', task.id.toString());
-        return this.http.get<Item[]>(this.ItemUrl + 'all/')
+        return this.http.get<Item[]>(this.itemUrl + 'all/')
             .pipe(
                 catchError(this.handleError('getItems', []))
             );
@@ -33,7 +33,7 @@ export class ItemService{
 
     /*getItem (Item: Item){
         const  params = new  HttpParams().set('id', Item.id.toString());
-        return this.http.get(this.ItemUrl, {params})
+        return this.http.get(this.itemUrl, {params})
             .pipe(
                 catchError(this.handleError('getItem', []))
             );
@@ -41,7 +41,7 @@ export class ItemService{
 
     addItem (task: Task, Item: Item): Observable<Item> {
         const  params = new  HttpParams().set('toDoListId', task.id.toString());
-        return this.http.post<Item>(this.ItemUrl, Item, { params })
+        return this.http.post<Item>(this.itemUrl, Item, { params })
             .pipe(
                 catchError(this.handleError('addItem', Item))
             );
@@ -49,7 +49,7 @@ export class ItemService{
 
     updateItem (task: Task, item: Item): Observable<Item> {
         const  params = new  HttpParams().set('toDoListId', task.id.toString());
-        return this.http.put<Item>(this.ItemUrl, item, { params })
+        return this.http.put<Item>(this.itemUrl, item, { params })
             .pipe(
                 catchError(this.handleError('updateItem', item))
             );
@@ -58,7 +58,7 @@ export class ItemService{
 
     deleteItem(Item: Item) {
         const  params = new  HttpParams().set('itemId', Item.id.toString());
-        return this.http.delete<Item>(this.ItemUrl, { params })
+        return this.http.delete<Item>(this.itemUrl, { params })
             .pipe(
                 catchError(this.handleError('deleteItem', Item))
             );

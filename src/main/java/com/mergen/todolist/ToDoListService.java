@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mergen.user.User;
+import com.mergen.user.Users;
 
 @Service
 public class ToDoListService {
@@ -14,7 +14,7 @@ public class ToDoListService {
 	@Autowired
 	ToDoListRepository toDoListRepository;
 	
-	public List<ToDoList> getToDoListsForUser(User user){
+	public List<ToDoList> getToDoListsForUser(Users user){
 		List<ToDoList> toDoList = new ArrayList<ToDoList>();
 		toDoListRepository.findByUser(user).forEach(toDoList::add);
 		return toDoList;

@@ -1,14 +1,18 @@
 <div class="alert alert-danger" [hidden]="!error">
-	There was a problem logging in. Please try again.
+	There was a problem registering in. Please try again.
 </div>
-<form role="form" (ngSubmit)="onLogin(f)" #f="ngForm">
+<form role="form" (ngSubmit)="onRegister(f)" #f="ngForm">
 	<div class="form-group">
 		<label for="username">Username:</label> <input type="text"
 			class="form-control" id="username" name="username" ngModel/>
 	</div>
 	<div class="form-group">
+		<label for="email">Email:</label> <input type="email"
+			class="form-control" id="email" name="email" ngModel/>
+	</div>
+	<div class="form-group">
 		<label for="password">Password:</label> <input type="password"
 			class="form-control" id="password" name="password" ngModel/>
 	</div>
-	<button type="submit" class="btn btn-primary">Submit</button>
+	<button type="submit" class="btn btn-primary">Register</button>
 </form>
