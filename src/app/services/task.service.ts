@@ -10,7 +10,7 @@ import { HttpErrorHandler, HandleError } from '../http-error-handler.service';
 
 @Injectable({
     providedIn: 'root',
-  })
+})
 export class TaskService{
     taskListUrl = 'http://localhost/task-list/';  // URL to web api
     private subject = new Subject<Task>();
