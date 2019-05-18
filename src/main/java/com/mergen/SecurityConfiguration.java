@@ -19,13 +19,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
-      http
+		http
         .httpBasic()
-      .and()
+        .and()
         .authorizeRequests()
-          .antMatchers("/index.html", "/", "/login", "/register").permitAll()
-          .anyRequest().authenticated()
-          .and().csrf().disable().cors();
+            .antMatchers("/", "/generateUser", "/authenticateUser", "/error", "/*.js", "/*.js.map", "glyphicons*").permitAll()
+            .anyRequest().authenticated()
+        .and()
+        .csrf()
+            .disable();
     }
 	
 	@Bean

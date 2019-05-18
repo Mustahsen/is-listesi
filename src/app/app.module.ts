@@ -22,12 +22,13 @@ import { LogoutComponent } from './logout/logout.component';
 import { RegisterComponent } from './register/register.component';
 import { UserService } from './services/user.service';
 import { BasicAuthHttpInterceptorService } from './services/basic-auth-http-interceptor.service';
+import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
-  { path: '', component: TasksComponent },
+  { path: '', component: TasksComponent, canActivate:[AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'logout', component: LogoutComponent }
+  { path: 'logout', component: LogoutComponent, canActivate:[AuthGuard] }
 ];
 
 @NgModule({
@@ -56,6 +57,7 @@ const routes: Routes = [
     ItemService,
     AuthenticationService,
     UserService,
+    AuthGuard,
     { provide:HTTP_INTERCEPTORS, useClass:BasicAuthHttpInterceptorService, multi:true }
   ],
   bootstrap: [AppComponent]

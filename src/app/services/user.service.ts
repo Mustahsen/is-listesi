@@ -10,7 +10,7 @@ import { HandleError, HttpErrorHandler } from '../http-error-handler.service';
     providedIn: 'root',
 })
 export class UserService {
-  registerUrl = 'http://localhost/register';
+  registerUrl = 'http://localhost/generateUser';
   private handleError: HandleError;
 
   constructor(public http: HttpClient, httpErrorHandler: HttpErrorHandler) {

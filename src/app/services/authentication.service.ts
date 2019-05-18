@@ -8,7 +8,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthenticationService {
-    loginUrl = 'http://localhost/login';
+    loginUrl = 'http://localhost/authenticateUser';
+    redirectUrl: string;
 
     constructor(private httpClient: HttpClient) { }
 
@@ -31,7 +32,6 @@ export class AuthenticationService {
 
     isLoggedIn() {
         let user = sessionStorage.getItem('username');
-        console.log(!(user === null))
         return !(user === null);
     }
 

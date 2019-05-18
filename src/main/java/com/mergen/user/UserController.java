@@ -26,7 +26,7 @@ public class UserController {
 	private PasswordEncoder passwordEncoder;
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	@RequestMapping(value = "/generateUser", method = RequestMethod.POST)
 	public ResponseEntity<?> createUser(@RequestBody Users user) {
 		if (userService.findUser(user) != null) {
 			return new ResponseEntity(("User with username : " + user.getUsername() + "already exists"), HttpStatus.CONFLICT);
@@ -38,7 +38,7 @@ public class UserController {
 	}
 	
 
-	@RequestMapping("/login")
+	@RequestMapping("/authenticateUser")
 	public Principal user(Principal principal) {
 		logger.info("user logged "+ principal);
 		return principal;

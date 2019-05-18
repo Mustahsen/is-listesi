@@ -24,7 +24,6 @@ export class RegisterComponent implements OnInit {
     user.email = this.form.value.email;
     user.password = this.form.value.password;
     this.userService.createUser(user).subscribe(data => {
-        console.log(data);
         this.router.navigate(['/login']);
       }, err => {
         console.log(err);
