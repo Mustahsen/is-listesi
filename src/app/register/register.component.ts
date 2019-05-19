@@ -23,15 +23,16 @@ export class RegisterComponent implements OnInit {
     user.username = this.model.username
     user.email = this.model.email;
     user.password = this.model.password;
-    this.userService.createUser(user).subscribe(data => {
+    this.userService.createUser(user).subscribe(
+      data => {
+        this.errorMessage = undefined;
         this.router.navigate(['/login']);
-      }, err => {
-        if(err.status == 409){
+      }, error => {
+        if(error.status == 409){
           this.errorMessage = "Username already exists!";
         }else{
           this.errorMessage = "Unknown error occured, please try again later!";
         }
-        console.log(this.errorMessage);
       }
     )
   }
