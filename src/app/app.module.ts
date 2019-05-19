@@ -9,7 +9,6 @@ import { HeaderComponent } from './header/header.component';
 import { TasksComponent } from './tasks/tasks.component';
 import { TaskListComponent } from './tasks/task-list/task-list.component';
 import { TaskDetailComponent } from './tasks/task-detail/task-detail.component';
-import { TaskItemComponent } from './tasks/task-list/task-item/task-item.component';
 
 
 import { ItemService } from './services/item.service';
@@ -38,7 +37,6 @@ const routes: Routes = [
     TasksComponent,
     TaskListComponent,
     TaskDetailComponent,
-    TaskItemComponent,
     LogoutComponent,
     RegisterComponent
   ],

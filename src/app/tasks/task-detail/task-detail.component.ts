@@ -20,6 +20,7 @@ export class TaskDetailComponent implements OnInit {
   dependentItems: Item[];
   editItem: Item;
   task: Task;
+  previousTask: Task;
   @ViewChild('f') form: NgForm;
 
   nameOrderAsc: boolean = true;
@@ -37,6 +38,19 @@ export class TaskDetailComponent implements OnInit {
     this.taskSubscription = this.taskService.getSelectedTaskMessage()
       .subscribe(
         (task: Task) => {
+          console.log(this.previousTask);
+          console.log(task);
+          if(this.previousTask && task){
+            if(this.previousTask.id === task.id){
+              this.clearSelectedData();
+            } else {
+              this.previousTask = task;
+              this.onClear();
+            }
+          }else{
+            this.previousTask = task;
+            this.onClear();
+          }
           this.task = task;
           if(!task) {
             this.items = undefined;
@@ -66,7 +80,6 @@ export class TaskDetailComponent implements OnInit {
               this.itemNames[element.id] = element.name;
             });
           }
-
         }
       );
   }
@@ -106,7 +119,6 @@ export class TaskDetailComponent implements OnInit {
       error => {
         this.model.updateErrorMessage = item.name;
       });
-    this.onClear();
   }
 
   deleteItem(): void {
@@ -119,7 +131,7 @@ export class TaskDetailComponent implements OnInit {
       error => {
         this.model.deleteErrorMessage = this.editItem.name;
       });
-    this.onClear();
+    this.clearSelectedData();
   }
 
   onSubmit(form: NgForm) {
@@ -144,6 +156,7 @@ export class TaskDetailComponent implements OnInit {
       this.editItem == undefined;
       this.onClear();
     }else{
+      this.removeInfoMessages();
       this.editItem = item;
       this.form.controls['name'].setValue(this.editItem.name);
       this.form.controls['deadline'].setValue(this.editItem.deadline);
@@ -152,8 +165,6 @@ export class TaskDetailComponent implements OnInit {
       this.form.controls['dependentItemId'].setValue(this.editItem.dependentItemId);
   
       this.dependentItems = this.task.itemList.filter(i => i.id !== this.editItem.id);
-
-      this.itemService.sendSelectedItemMessage(this.editItem);
     }
   }
 
@@ -200,17 +211,24 @@ export class TaskDetailComponent implements OnInit {
   }
 
   onClear(){
+    this.clearSelectedData();
+    this.removeInfoMessages();
+  }
+
+  clearSelectedData(){
     this.editItem = undefined;
     this.model.name = undefined;
+    this.items = this.task ? this.task.itemList : null;
+    this.dependentItems = this.items;
+    this.form.resetForm();
+  }
+
+  removeInfoMessages(){
     this.model.addSuccessMessage = undefined;
     this.model.updateSuccessMessage = undefined;
     this.model.addErrorMessage = undefined;
     this.model.updateErrorMessage = undefined;
     this.model.updateStatusMessage = undefined;
-    this.items = this.task ? this.task.itemList : null;
-    this.dependentItems = this.items;
-    this.form.resetForm();
-    this.itemService.sendSelectedItemMessage(this.editItem);
   }
 
   private sortStringAscendingNullValuesAtTheEnd(a: string, b: string){

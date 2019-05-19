@@ -78,6 +78,7 @@ export class TaskListComponent implements OnInit {
     this.editTask = task;
     this.model.name = this.editTask.name;
     this.taskService.sendSelectedTaskMessage(this.editTask);
+    this.itemService.sendItemsMessage(this.editTask.itemList);
   }
 
   onSubmit(form: NgForm) {

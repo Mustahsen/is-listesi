@@ -53,14 +53,6 @@ export class ItemService{
         return this.http.delete<Item>(this.itemUrl, { params });
     }
 
-    sendSelectedItemMessage(item: Item){
-        this.subjectSingular.next(item);
-    }
-
-    getSelectedItemMessage(): Observable<Item> {
-        return this.subjectSingular.asObservable();
-    }
-
     sendItemsMessage(items: Item[]){
         this.subjectPlural.next(items);
     }
