@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mergen.item.ItemService;
+import com.mergen.user.UserService;
 import com.mergen.user.Users;
 
 @RestController
@@ -24,9 +25,17 @@ public class ToDoListController {
 	@Autowired
 	ItemService itemService;
 	
+	@Autowired
+	UserService userService;
+	
 	@RequestMapping(method = RequestMethod.GET, value = "/task-list/all/")
 	public List<ToDoList> getAllToDoLists(){
 		return toDoListService.getAllToDoLists();
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/task-lists/")
+	public List<ToDoList> getAllToDoListsForUser(@RequestParam("username") String username){
+		return toDoListService.getToDoListsForUser(userService.findUser(new Users(null, username, null, null, null, null)));
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/task-list/")

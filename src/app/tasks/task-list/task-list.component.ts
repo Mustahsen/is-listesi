@@ -25,7 +25,7 @@ export class TaskListComponent implements OnInit {
   }
 
   getTasks(){
-    this.taskService.getTasks()
+    this.taskService.getTasksForUser()
       .subscribe(tasks => this.tasks = tasks);
   }
 

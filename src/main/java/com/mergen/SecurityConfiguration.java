@@ -17,10 +17,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
 	UserService userService;
 	
+	@Autowired 
+	private MyBasicAuthenticationEntryPoint myBasicAuthenticationEntryPoint;
+	
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
 		http
-        .httpBasic()
+        .httpBasic().authenticationEntryPoint(myBasicAuthenticationEntryPoint)
         .and()
         .authorizeRequests()
             .antMatchers("/", "/generateUser", "/authenticateUser", "/error", "/*.js", "/*.js.map", "glyphicons*").permitAll()

@@ -7,6 +7,7 @@ import { catchError } from 'rxjs/operators';
 import { Task } from '../models/task.model';
 
 import { HttpErrorHandler, HandleError } from '../http-error-handler.service';
+import { User } from '../models/user.model';
 
 @Injectable({
     providedIn: 'root',
@@ -22,6 +23,15 @@ export class TaskService{
 
     getTasks (): Observable<Task[]> {
         return this.http.get<Task[]>(this.taskListUrl + 'all/')
+            .pipe(
+                catchError(this.handleError('getTasks', []))
+            );
+    }
+
+    getTasksForUser (): Observable<Task[]> {
+        const username = sessionStorage.getItem('username');
+        const  params = new  HttpParams().set('username', username);
+        return this.http.get<Task[]>(this.taskListUrl + 's/', { params })
             .pipe(
                 catchError(this.handleError('getTasks', []))
             );

@@ -18,6 +18,8 @@ export class AuthenticationService {
         sessionStorage.removeItem('username');
         sessionStorage.removeItem('basicauth');
 
+        console.log(username);
+
         const authString = 'Basic ' + btoa(username + ':' + password);
         const headers = new HttpHeaders({Authorization : authString});
 
