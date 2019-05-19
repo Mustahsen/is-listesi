@@ -47,12 +47,16 @@ export class TaskListComponent implements OnInit {
   }
 
   updateTask (task: Task) {
+    const oldName = this.editTask.name;
+    this.editTask.name = this.model.name;
     this.taskService.updateTask(this.editTask)
       .subscribe(
-        task => {
+        response => {
           const ix = task ? this.tasks.findIndex(t => t.id === task.id) : -1;
-          if (ix > -1) { this.tasks[ix] = task; }
-          this.model.updateSuccessMessage = task.name;
+          if (ix > -1) {
+            this.model.updateSuccessMessage = oldName + ' => ' + task.name;
+            this.tasks[ix] = task; 
+          }
         },
         error => {
           this.model.updateErrorMessage = task.name;
@@ -81,7 +85,6 @@ export class TaskListComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     if (this.editTask) {
-      this.editTask.name = this.model.name;
       this.updateTask(this.editTask);
     } else {
       this.addTask(this.model.name);
