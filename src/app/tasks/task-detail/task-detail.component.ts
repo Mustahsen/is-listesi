@@ -136,7 +136,7 @@ export class TaskDetailComponent implements OnInit {
     const index = this.model.dependentItemId ? this.dependentItems.findIndex(item => item.id.toString() === this.model.dependentItemId.toString()) : -1;
 
 
-    if(index !== -1 && this.dependentItems[index].status === false && this.model.status === 'true'){
+    if(index !== -1 && this.dependentItems[index].status === false && this.model.status === true){
       this.model.updateStatusMessage = "You can't complete an item before finishing dependent one!";
       return;
     }

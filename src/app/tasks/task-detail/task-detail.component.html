@@ -100,8 +100,8 @@
           <td><p [ngStyle]="{ 'color' : (editItem === itemEl) ? 'white' : 'black' }">{{ itemEl.deadline |  date: 'dd.MM.yyyy' }}</p></td>
           <td><p [ngStyle]="{ 'color' : (editItem === itemEl) ? 'white' : 'black' }">{{ itemEl.description }}</p></td>
           <td>
-            <span *ngIf="itemEl.status" class="glyphicon glyphicon-ok"></span>
-            <span *ngIf="!itemEl.status" class="glyphicon glyphicon-remove"></span>
+            <span *ngIf="itemEl.status" class="glyphicon glyphicon-check"></span>
+            <span *ngIf="!itemEl.status" class="glyphicon glyphicon-unchecked"></span>
           </td>
           <td><p [ngStyle]="{ 'color' : (editItem === itemEl) ? 'white' : 'black' }">{{ itemNames[itemEl.dependentItemId] }}</p></td>
         </tr>

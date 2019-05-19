@@ -11,7 +11,9 @@ describe('RegisterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RegisterComponent ],
+      declarations: [ 
+        RegisterComponent
+      ],
       imports: [
         FormsModule,
         RouterTestingModule,
@@ -31,3 +33,4 @@ describe('RegisterComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
