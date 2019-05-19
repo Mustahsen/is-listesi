@@ -14,12 +14,12 @@ public class ItemService {
 	
 	public List<Item> getItemsForToDoList(Long toDoListId){
 		List<Item> itemList = new ArrayList<Item>();
-		itemRepository.findByToDoListId(toDoListId).forEach(itemList::add);
+		itemRepository.findByToDoListIdOrderByIdAsc(toDoListId).forEach(itemList::add);
 		return itemList;
 	}
 	
-	public Item getItemForToDoList(Long toDoListId, Long itemId){
-		return itemRepository.findByToDoListIdAndId(toDoListId, itemId);
+	public Item getItemById(Long id){
+		return itemRepository.findById(id).orElse(null);
 	}
 	
 	public void addItem(Item item){

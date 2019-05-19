@@ -31,37 +31,25 @@ export class ItemService{
             );
     }
 
-    /*getItem (Item: Item){
-        const  params = new  HttpParams().set('id', Item.id.toString());
-        return this.http.get(this.itemUrl, {params})
-            .pipe(
-                catchError(this.handleError('getItem', []))
-            );
-    }*/
+    getItem (Item: Item){
+        const  params = new  HttpParams().set('itemId', Item.id.toString());
+        return this.http.get(this.itemUrl, {params});
+    }
 
     addItem (task: Task, Item: Item): Observable<Item> {
         const  params = new  HttpParams().set('toDoListId', task.id.toString());
-        return this.http.post<Item>(this.itemUrl, Item, { params })
-            .pipe(
-                catchError(this.handleError('addItem', Item))
-            );
+        return this.http.post<Item>(this.itemUrl, Item, { params });
     }
 
     updateItem (task: Task, item: Item): Observable<Item> {
         const  params = new  HttpParams().set('toDoListId', task.id.toString());
-        return this.http.put<Item>(this.itemUrl, item, { params })
-            .pipe(
-                catchError(this.handleError('updateItem', item))
-            );
+        return this.http.put<Item>(this.itemUrl, item, { params });
 
     }
 
     deleteItem(Item: Item) {
         const  params = new  HttpParams().set('itemId', Item.id.toString());
-        return this.http.delete<Item>(this.itemUrl, { params })
-            .pipe(
-                catchError(this.handleError('deleteItem', Item))
-            );
+        return this.http.delete<Item>(this.itemUrl, { params });
     }
 
     sendSelectedItemMessage(item: Item){

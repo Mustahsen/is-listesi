@@ -37,9 +37,6 @@ public class UserService implements UserDetailsService {
 			throw new UsernameNotFoundException("User doesn`t exist");
 		}
 		
-		logger.info("user name " + user.getUsername());
-		logger.info("user password " + user.getPassword());
-		
 		List<SimpleGrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority("USER"));
 		
 		return new User(user.getUsername(), user.getPassword(), authorities);

@@ -16,7 +16,7 @@ public class ToDoListService {
 	
 	public List<ToDoList> getToDoListsForUser(Users user){
 		List<ToDoList> toDoList = new ArrayList<ToDoList>();
-		toDoListRepository.findByUser(user).forEach(toDoList::add);
+		toDoListRepository.findByUserOrderByIdAsc(user).forEach(toDoList::add);
 		return toDoList;
 	}
 	

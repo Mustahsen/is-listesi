@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Subscription, Observable } from 'rxjs';
 
 import { Task } from '../../models/task.model';
@@ -10,13 +10,15 @@ import { NgForm } from '@angular/forms';
 @Component({
   selector: 'app-task-detail',
   templateUrl: './task-detail.component.html',
-  styleUrls: ['./task-detail.component.css']
+  styleUrls: ['./task-detail.component.css'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class TaskDetailComponent implements OnInit {
+  model: any = {};
   items: Item[];
+  dependentItems: Item[];
   editItem: Item;
   task: Task;
-
   @ViewChild('f') form: NgForm;
 
   private taskSubscription: Subscription;
@@ -31,8 +33,10 @@ export class TaskDetailComponent implements OnInit {
           this.task = task;
           if(!task) {
             this.items = undefined;
+            this.dependentItems = undefined;
             this.itemService.sendItemsMessage(undefined);
           }else{
+            this.dependentItems = this.task.itemList;
             this.itemService.sendItemsMessage(this.task.itemList);
           }
         }
@@ -51,40 +55,63 @@ export class TaskDetailComponent implements OnInit {
     if(!name) { return; }
 
     const newItem: Item = new Item(null, name, deadline, status, dependentItemId);
-    this.itemService.addItem(this.task, newItem)
-      .subscribe(Item => {
-            this.taskService.fetchTask(this.task);
+    this.itemService.addItem(this.task, newItem).subscribe(
+      item => {
+        this.model.addSuccessMessage = newItem.name;
+        this.taskService.fetchTask(this.task);
+      },
+      error => {
+        this.model.addErrorMessage = newItem.name;
       });
   }
 
   updateItem (task: Task, item: Item) {
-    this.itemService.updateItem(task, item)
-      .subscribe(Item => {
-        const ix = Item ? this.task.itemList.findIndex(t => t.id === Item.id) : -1;
-        if (ix > -1) { this.task.itemList[ix] = Item; }
+    const oldName = item.name;
+    item.name = this.model.name;
+    item.deadline = this.model.deadline;
+    item.status = this.model.status;
+    item.dependentItemId = this.model.dependentItemId;
+
+    this.itemService.updateItem(task, item).subscribe(
+      response => {
+        const ix = item ? this.task.itemList.findIndex(i => i.id === item.id) : -1;
+        if (ix > -1) { 
+          this.model.updateSuccessMessage = oldName + ' => ' + item.name;
+          this.task.itemList[ix] = item; 
+        }
+      },
+      error => {
+        this.model.updateErrorMessage = item.name;
       });
-    this.editItem = undefined;
+    this.onClear();
   }
 
   deleteItem(): void {
-    this.items = this.items.filter(i => i !== this.editItem);
-    this.itemService.deleteItem(this.editItem).subscribe();
+    const item = this.editItem;
+    this.itemService.deleteItem(this.editItem).subscribe(
+      response => {
+        this.items = this.items.filter(i => i !== item);
+        this.model.deleteSuccessMessage = item.name;
+      },
+      error => {
+        this.model.deleteErrorMessage = this.editItem.name;
+      });
     this.onClear();
   }
 
   onSubmit(form: NgForm) {
-    const name = form.value.name;
-    const deadline = form.value.deadline;
-    const status = form.value.status;
-    const dependentItemId = form.value.dependentItemId;
+    const index = this.model.dependentItemId ? this.dependentItems.findIndex(item => item.id.toString() === this.model.dependentItemId) : -1;
+    const depentendItem = this.dependentItems[index];
+
+    if(depentendItem && !depentendItem.status && this.model.status == false){
+      this.model.updateStatusMessage = "You can't complete an item before finishing dependent one!"
+      return;
+    }
+
     if (this.editItem) {
-      this.editItem.name = name;
-      this.editItem.deadline = deadline;
-      this.editItem.status = status;
-      this.editItem.dependentItemId = dependentItemId;
       this.updateItem(this.task, this.editItem);
     } else {
-      this.addItem(name, deadline, status, dependentItemId);
+      this.addItem(this.model.name, this.model.deadline, this.model.status, this.model.dependentItemId);
     }
   }
 
@@ -93,15 +120,24 @@ export class TaskDetailComponent implements OnInit {
     this.form.controls['name'].setValue(this.editItem.name);
     this.form.controls['deadline'].setValue(this.editItem.deadline);
     this.form.controls['status'].setValue(this.editItem.status);
-    if(this.editItem.dependentItemId) this.form.controls['dependentItemId'].setValue(this.editItem.dependentItemId);
+    this.form.controls['dependentItemId'].setValue(this.editItem.dependentItemId);
+
+    this.dependentItems = this.items.filter(i => i.id !== this.editItem.id);
+
     this.itemService.sendSelectedItemMessage(this.editItem);
   }
 
   onClear(){
     this.editItem = undefined;
-    this.form.controls.name.reset();
+    this.model.name = undefined;
+    this.model.addSuccessMessage = undefined;
+    this.model.updateSuccessMessage = undefined;
+    this.model.addErrorMessage = undefined;
+    this.model.updateErrorMessage = undefined;
+    this.model.updateStatusMessage = undefined;
+    this.dependentItems = this.items;
+    this.form.resetForm();
     this.itemService.sendSelectedItemMessage(this.editItem);
   }
-
 
 }

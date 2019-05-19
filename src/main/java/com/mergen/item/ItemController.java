@@ -3,6 +3,8 @@ package com.mergen.item;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,8 +27,8 @@ public class ItemController {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/items/")
-	public Item getItemForList(@RequestParam("toDoListId") Long toDoListId, @RequestParam("itemId") Long itemId){
-		return itemService.getItemForToDoList(toDoListId, itemId);
+	public Item getItem(@RequestParam("itemId") Long itemId){
+		return itemService.getItemById(itemId);
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/items/")
@@ -43,8 +45,13 @@ public class ItemController {
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE, value = "/items/")
-	public void deleteItemOfList(@RequestParam("itemId") Long itemId){
-		itemService.deleteItemById(itemId);
+	public ResponseEntity<Item> deleteItemOfList(@RequestParam("itemId") Long itemId){
+		if(itemService.getItemById(itemId) != null) {
+			itemService.deleteItemById(itemId);
+			return new ResponseEntity<Item>(HttpStatus.ACCEPTED);
+		}else {
+			return new ResponseEntity<Item>(HttpStatus.BAD_REQUEST);
+		}
 	}
 
 }

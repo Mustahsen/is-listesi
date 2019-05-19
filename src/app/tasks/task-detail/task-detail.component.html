@@ -1,33 +1,42 @@
 <div class="row">
-  <div class="col-xs-12">
-    <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+  <div class="col-xs-12"><form (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm">
       <div class="row">
         <div class="col-sm-3 form-group">
-          <label for="name">Name</label>
-          <input type="text" id="name" class="form-control" name="name" ngModel required>
+            <label for="name">Name</label> 
+            <input type="text" class="form-control" id="name" name="name" 
+              [(ngModel)]="model.name" #name="ngModel" [ngClass]="{ 'is-invalid': f.submitted && name.invalid }" required/>
+            <div *ngIf="f.submitted && name.invalid" class="invalid-feedback alert alert-danger">
+              <div *ngIf="name.errors.required">Name is required</div>
+            </div>
         </div>
         <div class="col-sm-3 form-group">
           <label for="deadline">Deadline</label>
-          <input type="date" id="deadline" class="form-control" name="deadline" ngModel required>
+          <input type="date" class="form-control" id="deadline" name="deadline" 
+            [(ngModel)]="model.deadline" #deadline="ngModel" [ngClass]="{ 'is-invalid': f.submitted && deadline.invalid }" required/>
+          <div *ngIf="f.submitted && deadline.invalid" class="invalid-feedback alert alert-danger">
+            <div *ngIf="deadline.errors.required">Deadline is required</div>
+          </div>
         </div>
-        <div class="col-sm-3 form-check">
+        <div class="col-sm-3 form-group">
           <label for="status">Status</label>
-          <select id="status" class="form-control" name="status" ngModel>
+          <select class="form-control" id="status" name="status" [(ngModel)]="model.status" #status="ngModel">
             <option [value]="false">Incomplete</option>
             <option [value]="true">Complete</option>
           </select>
         </div>
         <div class="col-sm-3 form-group">
-          <label for="dependentItem">Dependent Item</label>
-          <select id="dependentItem" class="form-control" name="dependentItem" ngModel>
+          <label for="dependentItemId">Dependent Item</label>
+          <select class="form-control" id="dependentItemId" name="dependentItemId" #dependentItemId="ngModel" 
+            [(ngModel)]="model.dependentItemId" #status="ngModel" [disabled]="!dependentItems || dependentItems.length == 0">
+            <option *ngFor="let item of dependentItems; let i = index" [value]=item.id>{{ item.name }}</option> 
           </select>
         </div>
       </div>
       <div class="row">
         <div class="col-xs-12">
-          <button class="btn btn-success" type="submit" [disabled]="!f.valid">{{ editItem ? 'Update' : 'Add' }}</button>
-          <button class="btn btn-danger" type="button" (click)="deleteItem()" *ngIf="editItem">Delete</button>
-          <button class="btn btn-primary" type="button" (click)="onClear()" [disabled]="!editItem && !form.value.name">Clear</button>
+          <button class="btn btn-success" type="submit" [disabled]="!task">{{ editItem ? 'Update' : 'Add' }}</button>
+          <button class="btn btn-danger" type="button" (click)="deleteItem()" *ngIf="editItem" [disabled]="!task">Delete</button>
+          <button class="btn btn-primary" type="button" (click)="onClear()" [disabled]="!editItem && !form.value.name" [disabled]="!task">Clear</button>
         </div>
       </div>
     </form>
@@ -35,8 +44,19 @@
 </div>
 <hr>
 <div class="row">
-  <p *ngIf="items == undefined">Please select a TO-DO List!</p>
-  <p *ngIf="items && items.length == 0">Selected TO-DO List doesn't have any items!</p>
+  <div class="col-xs-12">
+      <p *ngIf="!model.addSuccessMessage && !model.updateSuccessMessage && !model.deleteSuccessMessage 
+      && !model.addErrorMessage && !model.updateErrorMessage && !model.deleteErrorMessage && !model.updateStatusMessage">TODO Items:</p>
+      <p *ngIf="model.addSuccessMessage" class="alert alert-success">TODO Item {{ model.addSuccessMessage }} added successfully</p>
+      <p *ngIf="model.updateSuccessMessage" class="alert alert-success">TODO Item {{ model.updateSuccessMessage }} updated successfully</p>
+      <p *ngIf="model.deleteSuccessMessage" class="alert alert-success">TODO Item {{ model.deleteSuccessMessage }} deleted successfully</p>
+      <p *ngIf="model.addErrorMessage" class="alert alert-danger">Error occurred during adding TODO Item {{ model.addErrorMessage }}</p>
+      <p *ngIf="model.updateErrorMessage" class="alert alert-danger">Error occurred during updating TODO Item {{ model.updateErrorMessage }}</p>
+      <p *ngIf="model.deleteErrorMessage" class="alert alert-danger">Error occurred during deleting TODO Item {{ model.deleteErrorMessage }}</p>
+      <p *ngIf="model.updateStatusMessage" class="alert alert-danger">{{ model.updateStatusMessage }}</p>
+  </div>
+</div>
+<div class="row">
   <app-todo-item [ngStyle]="{ 'background' : (editItem === itemEl) ? ' #d35400' : 'white', display: 'block'}"
     *ngFor="let itemEl of items" 
     [item]="itemEl" (click)="onEditItem(itemEl)"></app-todo-item>

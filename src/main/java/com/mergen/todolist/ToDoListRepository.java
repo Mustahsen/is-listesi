@@ -6,5 +6,5 @@ import com.mergen.todolist.ToDoList;
 import java.util.List;
 
 public interface ToDoListRepository extends CrudRepository<ToDoList, Long> {
-	List<ToDoList> findByUser(Users user);
+	List<ToDoList> findByUserOrderByIdAsc(Users user);
 }

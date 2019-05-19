@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Item } from '../../../models/item.model';
-import { TaskService } from '../../../services/task.service';
+import { ItemService } from 'src/app/services/item.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-todo-item',
@@ -9,10 +10,22 @@ import { TaskService } from '../../../services/task.service';
 })
 export class TodoItemComponent implements OnInit {
   @Input() item: Item;
+  dependentItem: Item;
+  private subscription: Subscription;
 
-  constructor(private taskService: TaskService) { }
+  constructor(private itemService: ItemService) { }
 
   ngOnInit() {
+    this.dependentItem = new Item(null, "", null, null, null);
+
+    if(!this.item.dependentItemId) return;
+
+    const item = new Item(this.item.dependentItemId, "", null, null, null);
+    this.subscription = this.itemService.getItem(item).subscribe(
+      (response: Item) => {
+        this.dependentItem = response;
+      }
+    );
   }
 
   onSelected() {
