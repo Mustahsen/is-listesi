@@ -16,10 +16,17 @@ import { NgForm } from '@angular/forms';
 export class TaskDetailComponent implements OnInit {
   model: any = {};
   items: Item[];
+  itemNames: {};
   dependentItems: Item[];
   editItem: Item;
   task: Task;
   @ViewChild('f') form: NgForm;
+
+  nameOrderAsc: boolean = true;
+  descriptionOrderAsc: boolean = true;
+  statusOrderAsc: boolean = true;
+  deadlineOrderAsc: boolean = true;
+  dependentItemOrderAsc: boolean = true;
 
   private taskSubscription: Subscription;
   private ItemSubscription: Subscription;
@@ -34,9 +41,16 @@ export class TaskDetailComponent implements OnInit {
           if(!task) {
             this.items = undefined;
             this.dependentItems = undefined;
+            this.itemNames = undefined;
             this.itemService.sendItemsMessage(undefined);
           }else{
             this.dependentItems = this.task.itemList;
+            if(this.items){
+              this.itemNames = {}
+              this.items.forEach(element => {
+                this.itemNames[element.id] = element.name;
+              });
+            }
             this.itemService.sendItemsMessage(this.task.itemList);
           }
         }
@@ -46,6 +60,13 @@ export class TaskDetailComponent implements OnInit {
         (items: Item[]) => {
           this.items = items;
           this.dependentItems = this.task ? this.task.itemList : undefined;
+          if(items){
+            this.itemNames = {}
+            items.forEach(element => {
+              this.itemNames[element.id] = element.name;
+            });
+          }
+
         }
       );
   }
@@ -192,8 +213,80 @@ export class TaskDetailComponent implements OnInit {
     this.itemService.sendSelectedItemMessage(this.editItem);
   }
 
-  onColumnClick(column: string){
-    console.log(column);
+  private sortStringAscendingNullValuesAtTheEnd(a: string, b: string){
+    if(a && b){
+      if(a > b) {
+        return 1;
+      } else if(a < b) {
+        return -1;
+      } else {
+        return 0;
+      }
+    } else if (a) {
+      return -1;
+    } else if (b) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
+  private sortBooleanAscending(a: boolean, b: boolean){
+    if(a && b){
+      return 0;
+    } else if (a){
+      return 1;
+    } else {
+      return -1;
+    }
+  }
+
+  onColumnClick(column){
+
+    if(!this.items) return;
+
+    if(column === "name"){
+      if(this.nameOrderAsc){
+        this.items.sort((a, b) => this.sortStringAscendingNullValuesAtTheEnd(a.name, b.name));
+        this.nameOrderAsc = false;
+      } else{
+        this.items.sort((a, b) => this.sortStringAscendingNullValuesAtTheEnd(b.name, a.name));
+        this.nameOrderAsc = true;
+      }
+    } else if(column === "description"){
+      if(this.descriptionOrderAsc){
+        this.items.sort((a, b) => this.sortStringAscendingNullValuesAtTheEnd(a.description, b.description));
+        this.descriptionOrderAsc = false;
+      } else{
+        this.items.sort((a, b) => this.sortStringAscendingNullValuesAtTheEnd(b.description, a.description));
+        this.descriptionOrderAsc = true;
+      }
+    } else if(column === "status"){
+      if(this.statusOrderAsc){
+        this.items.sort((a, b) => this.sortBooleanAscending(a.status, b.status));
+        this.statusOrderAsc = false;
+      } else{
+        this.items.sort((a, b) => this.sortBooleanAscending(b.status, a.status));
+        this.statusOrderAsc  = true;
+      }
+    } else if(column === "deadline"){
+      if(this.deadlineOrderAsc){
+        this.items.sort(function(a,b){return new Date(a.deadline).getTime() - new Date(b.deadline).getTime()});
+        this.deadlineOrderAsc = false;
+      } else{
+        this.items.sort(function(a,b){return new Date(b.deadline).getTime() - new Date(a.deadline).getTime()});
+        this.deadlineOrderAsc  = true;
+      }
+    } else if(column === "dependentItem"){
+      if(this.dependentItemOrderAsc){
+        this.items.sort((a, b) => this.sortStringAscendingNullValuesAtTheEnd(this.itemNames[a.dependentItemId], this.itemNames[b.dependentItemId]));
+        this.dependentItemOrderAsc = false;
+      } else{
+        this.items.sort((a, b) => this.sortStringAscendingNullValuesAtTheEnd(this.itemNames[b.dependentItemId], this.itemNames[a.dependentItemId]));
+        this.dependentItemOrderAsc = true;
+      }
+    }
+
   }
 
 }

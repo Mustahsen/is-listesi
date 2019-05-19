@@ -25,10 +25,11 @@
           <label for="status">Status</label>
           <input type="checkbox" class="form-check-input" id="status" name="status" [(ngModel)]="model.status" #status="ngModel" >
         </div>
-        <div class="col-sm-2 form-group">
+        <div class="col-sm-3 form-group">
           <label for="dependentItemId">Dependent Item</label>
           <select class="form-control" id="dependentItemId" name="dependentItemId" #dependentItemId="ngModel" 
             [(ngModel)]="model.dependentItemId" #status="ngModel" [disabled]="!dependentItems || dependentItems.length == 0">
+            <option [value]="0">Independent</option> 
             <option *ngFor="let item of dependentItems; let i = index" [value]=item.id>{{ item.name }}</option> 
           </select>
         </div>
@@ -61,31 +62,31 @@
     <thead>
       <tr>
         <th scope="col">
-          <a href="#" class="list-group-item" (click)="onColumnClick(name)">Name
+          <a href="#" class="list-group-item" (click)="onColumnClick('name')">Name
             <span class="glyphicon glyphicon-arrow-up"></span>
             <span class="glyphicon glyphicon-arrow-down"></span>
           </a>
         </th>
         <th scope="col">
-          <a href="#" class="list-group-item" (click)="onColumnClick(deadline)">Deadline
+          <a href="#" class="list-group-item" (click)="onColumnClick('deadline')">Deadline
               <span class="glyphicon glyphicon-arrow-up"></span>
               <span class="glyphicon glyphicon-arrow-down"></span>
             </a>
         </th>
         <th scope="col">
-          <a href="#" class="list-group-item" (click)="onColumnClick(description)">Description
+          <a href="#" class="list-group-item" (click)="onColumnClick('description')">Description
               <span class="glyphicon glyphicon-arrow-up"></span>
               <span class="glyphicon glyphicon-arrow-down"></span>
             </a>
         </th>
         <th scope="col">
-          <a href="#" class="list-group-item" (click)="onColumnClick(status)">Status
+          <a href="#" class="list-group-item" (click)="onColumnClick('status')">Status
               <span class="glyphicon glyphicon-arrow-up"></span>
               <span class="glyphicon glyphicon-arrow-down"></span>
             </a>
         </th>
         <th scope="col">
-          <a href="#" class="list-group-item" (click)="onColumnClick(dependentItem)">Dependent Item
+          <a href="#" class="list-group-item" (click)="onColumnClick('dependentItem')">Dependent Item
               <span class="glyphicon glyphicon-arrow-up"></span>
               <span class="glyphicon glyphicon-arrow-down"></span>
             </a>
