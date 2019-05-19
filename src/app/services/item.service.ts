@@ -13,7 +13,8 @@ import { HttpErrorHandler, HandleError } from '../http-error-handler.service';
     providedIn: 'root',
 })
 export class ItemService{
-    itemUrl = '/items/';
+    itemUrl = 'https://calm-oasis-87327.herokuapp.com/items/';
+    //itemUrl = 'http://localhost/items/'; test
     private subjectSingular = new Subject<Item>();
     private subjectPlural = new Subject<Item[]>();
     private handleError: HandleError;

@@ -13,7 +13,8 @@ import { User } from '../models/user.model';
     providedIn: 'root',
 })
 export class TaskService{
-    taskListUrl = '/task-list/';  // URL to web api
+    taskListUrl = 'https://calm-oasis-87327.herokuapp.com/task-list/';
+    //taskListUrl = 'http://localhost/task-list/'; test
     private subject = new Subject<Task>();
     private handleError: HandleError;
 

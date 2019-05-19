@@ -10,7 +10,8 @@ import { HandleError, HttpErrorHandler } from '../http-error-handler.service';
     providedIn: 'root',
 })
 export class UserService {
-  registerUrl = '/generateUser';
+  registerUrl = 'https://calm-oasis-87327.herokuapp.com/generateUser';
+  //registerUrl = 'http://localhost/generateUser'; test
   private handleError: HandleError;
 
   constructor(public http: HttpClient, httpErrorHandler: HttpErrorHandler) {

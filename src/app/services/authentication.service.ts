@@ -8,7 +8,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthenticationService {
-    loginUrl = '/authenticateUser';
+    loginUrl = 'https://calm-oasis-87327.herokuapp.com/authenticateUser';
+    //loginUrl = 'http://localhost/authenticateUser'; test
     redirectUrl: string;
 
     constructor(private httpClient: HttpClient) { }
