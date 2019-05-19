@@ -101,7 +101,7 @@ export class TaskDetailComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     const index = this.model.dependentItemId ? this.dependentItems.findIndex(item => item.id.toString() === this.model.dependentItemId) : -1;
-    const depentendItem = this.dependentItems[index];
+    const depentendItem = index == -1 ? undefined : this.dependentItems[index];
 
     if(depentendItem && !depentendItem.status && this.model.status == false){
       this.model.updateStatusMessage = "You can't complete an item before finishing dependent one!"
