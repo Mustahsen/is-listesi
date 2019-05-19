@@ -13,7 +13,7 @@ import { HttpErrorHandler, HandleError } from '../http-error-handler.service';
     providedIn: 'root',
 })
 export class ItemService{
-    itemUrl = 'http://localhost/items/';
+    itemUrl = '/items/';
     private subjectSingular = new Subject<Item>();
     private subjectPlural = new Subject<Item[]>();
     private handleError: HandleError;

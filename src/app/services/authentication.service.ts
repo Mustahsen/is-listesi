@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthenticationService {
-    loginUrl = 'http://localhost/authenticateUser';
+    loginUrl = '/authenticateUser';
     redirectUrl: string;
 
     constructor(private httpClient: HttpClient) { }

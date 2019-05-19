@@ -13,7 +13,7 @@ import { User } from '../models/user.model';
     providedIn: 'root',
 })
 export class TaskService{
-    taskListUrl = 'http://localhost/task-list/';  // URL to web api
+    taskListUrl = '/task-list/';  // URL to web api
     private subject = new Subject<Task>();
     private handleError: HandleError;
 
