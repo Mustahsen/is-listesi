@@ -39,14 +39,13 @@ export class TaskDetailComponent implements OnInit {
             this.dependentItems = this.task.itemList;
             this.itemService.sendItemsMessage(this.task.itemList);
           }
-          this.onClear();
         }
     );
     this.ItemSubscription = this.itemService.getItemsMessage()
       .subscribe(
         (items: Item[]) => {
           this.items = items;
-          this.dependentItems = this.task.itemList;
+          this.dependentItems = this.task ? this.task.itemList : undefined;
         }
       );
   }
@@ -187,10 +186,14 @@ export class TaskDetailComponent implements OnInit {
     this.model.addErrorMessage = undefined;
     this.model.updateErrorMessage = undefined;
     this.model.updateStatusMessage = undefined;
-    this.items = this.task.itemList;
+    this.items = this.task ? this.task.itemList : null;
     this.dependentItems = this.items;
     this.form.resetForm();
     this.itemService.sendSelectedItemMessage(this.editItem);
+  }
+
+  onColumnClick(column: string){
+    console.log(column);
   }
 
 }

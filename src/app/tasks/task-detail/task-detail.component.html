@@ -17,16 +17,13 @@
             <div *ngIf="deadline.errors.required">Deadline is required</div>
           </div>
         </div>
-        <div class="col-sm-4 form-group">
+        <div class="col-sm-3 form-group">
             <label for="description">Description</label> 
             <input type="text" class="form-control" id="description" name="description" [(ngModel)]="model.description" #description="ngModel" />
         </div>
         <div class="col-sm-1 form-group">
           <label for="status">Status</label>
-          <select class="form-control" id="status" name="status" [(ngModel)]="model.status" #status="ngModel">
-            <option [value]="false">Incomplete</option>
-            <option [value]="true">Complete</option>
-          </select>
+          <input type="checkbox" class="form-check-input" id="status" name="status" [(ngModel)]="model.status" #status="ngModel" >
         </div>
         <div class="col-sm-2 form-group">
           <label for="dependentItemId">Dependent Item</label>
@@ -50,8 +47,6 @@
 <hr>
 <div class="row">
   <div class="col-sm-12">
-      <p *ngIf="!model.addSuccessMessage && !model.updateSuccessMessage && !model.deleteSuccessMessage 
-      && !model.addErrorMessage && !model.updateErrorMessage && !model.deleteErrorMessage && !model.updateStatusMessage">TODO Items:</p>
       <p *ngIf="model.addSuccessMessage" class="alert alert-success">TODO Item {{ model.addSuccessMessage }} added successfully</p>
       <p *ngIf="model.updateSuccessMessage" class="alert alert-success">TODO Item {{ model.updateSuccessMessage }} updated successfully</p>
       <p *ngIf="model.deleteSuccessMessage" class="alert alert-success">TODO Item {{ model.deleteSuccessMessage }} deleted successfully</p>
@@ -62,8 +57,53 @@
   </div>
 </div>
 <div class="row">
-  <app-todo-item [ngStyle]="{ 'background' : (editItem === itemEl) ? ' #d35400' : 'white', display: 'block'}"
-    *ngFor="let itemEl of items" 
-    [item]="itemEl" (click)="onEditItem(itemEl)"></app-todo-item>
+  <table class="table table-hover table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">
+          <a href="#" class="list-group-item" (click)="onColumnClick(name)">Name
+            <span class="glyphicon glyphicon-arrow-up"></span>
+            <span class="glyphicon glyphicon-arrow-down"></span>
+          </a>
+        </th>
+        <th scope="col">
+          <a href="#" class="list-group-item" (click)="onColumnClick(deadline)">Deadline
+              <span class="glyphicon glyphicon-arrow-up"></span>
+              <span class="glyphicon glyphicon-arrow-down"></span>
+            </a>
+        </th>
+        <th scope="col">
+          <a href="#" class="list-group-item" (click)="onColumnClick(description)">Description
+              <span class="glyphicon glyphicon-arrow-up"></span>
+              <span class="glyphicon glyphicon-arrow-down"></span>
+            </a>
+        </th>
+        <th scope="col">
+          <a href="#" class="list-group-item" (click)="onColumnClick(status)">Status
+              <span class="glyphicon glyphicon-arrow-up"></span>
+              <span class="glyphicon glyphicon-arrow-down"></span>
+            </a>
+        </th>
+        <th scope="col">
+          <a href="#" class="list-group-item" (click)="onColumnClick(dependentItem)">Dependent Item
+              <span class="glyphicon glyphicon-arrow-up"></span>
+              <span class="glyphicon glyphicon-arrow-down"></span>
+            </a>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let itemEl of items" class="text-center" (click)="onEditItem(itemEl)" [ngStyle]="{ 'background' : (editItem === itemEl) ? ' #d35400' : 'white'}">
+          <td>{{ itemEl.name }}</td>
+          <td>{{ itemEl.deadline |  date: 'dd.MM.yyyy' }}</td>
+          <td>{{ itemEl.description }}</td>
+          <td>
+            <span *ngIf="itemEl.status" class="glyphicon glyphicon-ok"></span>
+            <span *ngIf="!itemEl.status" class="glyphicon glyphicon-remove"></span>
+          </td>
+          <td>{{ itemEl.dependentItemId }}</td>
+        </tr>
+      </tbody>
+    </table>
 </div>
 

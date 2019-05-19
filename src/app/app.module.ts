@@ -10,7 +10,6 @@ import { TasksComponent } from './tasks/tasks.component';
 import { TaskListComponent } from './tasks/task-list/task-list.component';
 import { TaskDetailComponent } from './tasks/task-detail/task-detail.component';
 import { TaskItemComponent } from './tasks/task-list/task-item/task-item.component';
-import { TodoItemComponent } from './tasks/task-detail/todo-item/todo-item.component';
 
 
 import { ItemService } from './services/item.service';
@@ -40,7 +39,6 @@ const routes: Routes = [
     TaskListComponent,
     TaskDetailComponent,
     TaskItemComponent,
-    TodoItemComponent,
     LogoutComponent,
     RegisterComponent
   ],
