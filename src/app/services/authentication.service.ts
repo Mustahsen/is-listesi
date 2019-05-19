@@ -5,7 +5,7 @@ import { HttpClient, HttpParams, HttpHeaders, HttpRequest, HttpResponse } from '
   providedIn: 'root'
 })
 export class AuthenticationService {
-    loginUrl = 'https://calm-oasis-87327.herokuapp.com/authenticateUser';
+    loginUrl = 'https://todo-app-spring-boot-angular.herokuapp.com/authenticateUser';
     //loginUrl = 'http://localhost/authenticateUser'; test
     redirectUrl: string;
 

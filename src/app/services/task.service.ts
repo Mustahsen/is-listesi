@@ -12,7 +12,7 @@ import { HttpErrorHandler, HandleError } from '../http-error-handler.service';
     providedIn: 'root',
 })
 export class TaskService{
-    taskListUrl = 'https://calm-oasis-87327.herokuapp.com/task-list/';
+    taskListUrl = 'https://todo-app-spring-boot-angular.herokuapp.com/task-list/';
     //taskListUrl = 'http://localhost/task-list/'; test
     private subject = new Subject<Task>();
     private handleError: HandleError;

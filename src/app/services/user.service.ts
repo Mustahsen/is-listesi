@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
     providedIn: 'root',
 })
 export class UserService {
-  registerUrl = 'https://calm-oasis-87327.herokuapp.com/generateUser';
+  registerUrl = 'https://todo-app-spring-boot-angular.herokuapp.com/generateUser';
   //registerUrl = 'http://localhost/generateUser'; test
 
   constructor(public http: HttpClient) {

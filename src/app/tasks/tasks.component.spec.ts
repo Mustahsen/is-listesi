@@ -1,6 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TasksComponent } from './tasks.component';
+import { Component } from '@angular/core';
+import { TaskService } from '../services/task.service';
+import { HttpClient, HttpHandler } from '@angular/common/http';
+import { HttpErrorHandler } from '../http-error-handler.service';
+import { MessageService } from '../message.service';
 
 describe('TasksComponent', () => {
   let component: TasksComponent;
@@ -8,7 +13,18 @@ describe('TasksComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TasksComponent ]
+      declarations: [ 
+        TasksComponent,
+        MockTaskListComponent,
+        MockTaskDetailComponent
+      ],
+      providers: [
+        TaskService,
+        HttpClient,
+        HttpHandler,
+        HttpErrorHandler,
+        MessageService
+      ]
     })
     .compileComponents();
   }));
@@ -23,3 +39,16 @@ describe('TasksComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+@Component({
+  selector: 'app-task-list',
+  template: ''
+})
+class MockTaskListComponent {
+}
+@Component({
+  selector: 'app-task-detail',
+  template: ''
+})
+class MockTaskDetailComponent {
+}
