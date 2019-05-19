@@ -3,20 +3,21 @@
   class="list-group-item clearfix"
   (click)="onSelected()">
   <div class="row">
-    <div class="list-group-item-heading col-sm-3">
-      <p>{{ item.name }}</p>
+    <div class="list-group-item-heading col-sm-2">
+      <p class="text-center">{{ item.name }}</p>
     </div>
     <div class="list-group-item-text col-sm-3">
-        <p>{{ item.deadline |  date: 'dd.MM.yyyy' }}</p>
+        <p class="text-center">{{ item.deadline |  date: 'dd.MM.yyyy' }}</p>
     </div>
-    <div class="list-group-item-text col-sm-3">
-        <p *ngIf="item.status" class="alert alert-success">Complete</p>
-        <p *ngIf="!item.status" class="alert alert-danger">Incomplete</p>
+    <div class="list-group-item-text col-sm-4">
+        <p class="text-center">{{ item.description }}</p>
     </div>
-    <div class="list-group-item-text col-sm-3">
-        <p>{{ dependentItem.name }} </p>
+    <div class="list-group-item-text col-sm-1">
+        <p *ngIf="item.status" class="text-center">Complete</p>
+        <p *ngIf="!item.status" class="text-center">Incomplete</p>
     </div>
-    <div class="col-xs-2">
+    <div class="list-group-item-text col-sm-2">
+        <p class="text-center">{{ dependentItem.name }} </p>
     </div>
   </div>
 </a>

@@ -16,11 +16,11 @@ export class TodoItemComponent implements OnInit {
   constructor(private itemService: ItemService) { }
 
   ngOnInit() {
-    this.dependentItem = new Item(null, "", null, null, null);
+    this.dependentItem = new Item(null, "", null, null, null, null);
 
     if(!this.item.dependentItemId) return;
 
-    const item = new Item(this.item.dependentItemId, "", null, null, null);
+    const item = new Item(this.item.dependentItemId, "", null, null, null, null);
     this.subscription = this.itemService.getItem(item).subscribe(
       (response: Item) => {
         this.dependentItem = response;

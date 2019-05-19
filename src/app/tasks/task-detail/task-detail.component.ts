@@ -46,17 +46,17 @@ export class TaskDetailComponent implements OnInit {
       .subscribe(
         (items: Item[]) => {
           this.items = items;
-          this.dependentItems = this.items;
+          this.dependentItems = this.task.itemList;
         }
       );
   }
 
-  addItem (name: string, deadline: Date, status: boolean, dependentItemId: number): void{
+  addItem (name: string, deadline: Date, description: string, status: boolean, dependentItemId: number): void{
     this.editItem = undefined;
     name = name.trim();
     if(!name) { return; }
 
-    const newItem: Item = new Item(null, name, deadline, status, dependentItemId);
+    const newItem: Item = new Item(null, name, deadline, description, status, dependentItemId);
     this.itemService.addItem(this.task, newItem).subscribe(
       item => {
         this.model.addSuccessMessage = newItem.name;
@@ -115,7 +115,7 @@ export class TaskDetailComponent implements OnInit {
     if (this.editItem) {
       this.updateItem(this.task, this.editItem);
     } else {
-      this.addItem(this.model.name, this.model.deadline, this.model.status, this.model.dependentItemId);
+      this.addItem(this.model.name, this.model.deadline, this.model.description, this.model.status, this.model.dependentItemId);
     }
   }
 
@@ -127,13 +127,56 @@ export class TaskDetailComponent implements OnInit {
       this.editItem = item;
       this.form.controls['name'].setValue(this.editItem.name);
       this.form.controls['deadline'].setValue(this.editItem.deadline);
+      this.form.controls['description'].setValue(this.editItem.description);
       this.form.controls['status'].setValue(this.editItem.status);
       this.form.controls['dependentItemId'].setValue(this.editItem.dependentItemId);
   
-      this.dependentItems = this.items.filter(i => i.id !== this.editItem.id);
+      this.dependentItems = this.task.itemList.filter(i => i.id !== this.editItem.id);
 
       this.itemService.sendSelectedItemMessage(this.editItem);
     }
+  }
+
+  onSearch(){
+    const filteredItemList : Item[] = [];
+
+    for(let item of this.task.itemList){
+      if(this.model.name){
+        if (!item.name){
+          continue;
+        }else if(!item.name.includes(this.model.name)){
+          continue;
+        }
+      }
+      if(this.model.deadline){
+        if (!item.deadline){
+          continue;
+        }else if(!(item.deadline.valueOf() === this.model.deadline.valueOf())){
+          continue;
+        }
+      }
+      if(this.model.description){
+        if (!item.description){
+          continue;
+        }else if(!item.description.includes(this.model.description)){
+          continue;
+        }
+      }
+      if(this.model.status){
+        if (item.status.toString() !== this.model.status){
+          continue;
+        }
+      }
+      if(this.model.dependentItemId){
+        if (!item.dependentItemId){
+          continue;
+        }else if(item.dependentItemId.toString() !== this.model.dependentItemId){
+          continue;
+        }
+      }
+      filteredItemList.push(item);
+    }
+    this.itemService.sendItemsMessage(filteredItemList);
   }
 
   onClear(){
@@ -144,6 +187,7 @@ export class TaskDetailComponent implements OnInit {
     this.model.addErrorMessage = undefined;
     this.model.updateErrorMessage = undefined;
     this.model.updateStatusMessage = undefined;
+    this.items = this.task.itemList;
     this.dependentItems = this.items;
     this.form.resetForm();
     this.itemService.sendSelectedItemMessage(this.editItem);

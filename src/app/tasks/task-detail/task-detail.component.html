@@ -1,7 +1,7 @@
 <div class="row">
-  <div class="col-xs-12"><form (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm">
+  <div class="col-sm-12"><form (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm">
       <div class="row">
-        <div class="col-sm-3 form-group">
+        <div class="col-sm-2 form-group">
             <label for="name">Name</label> 
             <input type="text" class="form-control" id="name" name="name" 
               [(ngModel)]="model.name" #name="ngModel" [ngClass]="{ 'is-invalid': f.submitted && name.invalid }" required/>
@@ -17,14 +17,18 @@
             <div *ngIf="deadline.errors.required">Deadline is required</div>
           </div>
         </div>
-        <div class="col-sm-3 form-group">
+        <div class="col-sm-4 form-group">
+            <label for="description">Description</label> 
+            <input type="text" class="form-control" id="description" name="description" [(ngModel)]="model.description" #description="ngModel" />
+        </div>
+        <div class="col-sm-1 form-group">
           <label for="status">Status</label>
           <select class="form-control" id="status" name="status" [(ngModel)]="model.status" #status="ngModel">
             <option [value]="false">Incomplete</option>
             <option [value]="true">Complete</option>
           </select>
         </div>
-        <div class="col-sm-3 form-group">
+        <div class="col-sm-2 form-group">
           <label for="dependentItemId">Dependent Item</label>
           <select class="form-control" id="dependentItemId" name="dependentItemId" #dependentItemId="ngModel" 
             [(ngModel)]="model.dependentItemId" #status="ngModel" [disabled]="!dependentItems || dependentItems.length == 0">
@@ -33,10 +37,11 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-xs-12">
+        <div class="col-sm-12">
           <button class="btn btn-success" type="submit" [disabled]="!task">{{ editItem ? 'Update' : 'Add' }}</button>
           <button class="btn btn-danger" type="button" (click)="deleteItem()" *ngIf="editItem" [disabled]="!task">Delete</button>
           <button class="btn btn-primary" type="button" (click)="onClear()" [disabled]="!editItem && !form.value.name" [disabled]="!task">Clear</button>
+          <button class="btn btn-secondary" type="button" (click)="onSearch()" >Search</button>
         </div>
       </div>
     </form>
@@ -44,7 +49,7 @@
 </div>
 <hr>
 <div class="row">
-  <div class="col-xs-12">
+  <div class="col-sm-12">
       <p *ngIf="!model.addSuccessMessage && !model.updateSuccessMessage && !model.deleteSuccessMessage 
       && !model.addErrorMessage && !model.updateErrorMessage && !model.deleteErrorMessage && !model.updateStatusMessage">TODO Items:</p>
       <p *ngIf="model.addSuccessMessage" class="alert alert-success">TODO Item {{ model.addSuccessMessage }} added successfully</p>
