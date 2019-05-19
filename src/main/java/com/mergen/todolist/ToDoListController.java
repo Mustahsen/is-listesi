@@ -44,16 +44,16 @@ public class ToDoListController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/task-list/")
-	public ToDoList addToDoList(@RequestBody ToDoList toDoList){
-		toDoList.setUser(new Users(1L, null, null, null, null, null));
+	public ToDoList addToDoList(@RequestBody ToDoList toDoList, @RequestParam("username") String username){
+		toDoList.setUser(userService.findUser(new Users(null, username, null, null, null, null)));
 		toDoListService.addToDoList(toDoList);
 		return toDoList;
 	}
 
 	@RequestMapping(method = RequestMethod.PUT, value = "/task-list/")
-	public void updateToDoList(@RequestParam("id") Long id, @RequestBody ToDoList toDoList){
+	public void updateToDoList(@RequestParam("id") Long id, @RequestParam("username") String username, @RequestBody ToDoList toDoList){
 		toDoList.setId(id);
-		toDoList.setUser(new Users(1L, null, null, null, null, null));
+		toDoList.setUser(userService.findUser(new Users(null, username, null, null, null, null)));
 		toDoListService.updateToDoList(toDoList);
 	}
 
