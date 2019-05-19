@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
 import { NgForm } from '@angular/forms';
@@ -13,7 +12,7 @@ export class LoginComponent implements OnInit {
   model: any = {};
   errorMessage: string;
 
-  constructor(private http: HttpClient, private router: Router, private authenticationService: AuthenticationService) {
+  constructor(private router: Router, private authenticationService: AuthenticationService) {
   }
 
   ngOnInit() {

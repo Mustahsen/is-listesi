@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild, ChangeDetectionStrategy } from '@angular/core';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 import { Task } from '../../models/task.model';
 import { TaskService } from '../../services/task.service';

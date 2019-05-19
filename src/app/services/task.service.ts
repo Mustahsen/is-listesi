@@ -7,7 +7,6 @@ import { catchError } from 'rxjs/operators';
 import { Task } from '../models/task.model';
 
 import { HttpErrorHandler, HandleError } from '../http-error-handler.service';
-import { User } from '../models/user.model';
 
 @Injectable({
     providedIn: 'root',

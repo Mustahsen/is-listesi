@@ -1,7 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, ViewChild } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { HttpResponse } from '@angular/common/http';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 import { Task } from '../../models/task.model';
