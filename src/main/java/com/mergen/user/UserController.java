@@ -30,7 +30,7 @@ public class UserController {
 	@CrossOrigin(origins = "http://localhost:4200")
 	public ResponseEntity<?> createUser(@RequestBody Users user) {
 		if (userService.findUser(user) != null) {
-			return new ResponseEntity(("User with username : " + user.getUsername() + "already exists"), HttpStatus.CONFLICT);
+			return new ResponseEntity(("User with username : " + user.getUsername() + " already exists"), HttpStatus.CONFLICT);
 		}
 		user.setRole("USER");
 		user.setPassword(passwordEncoder.encode(user.getPassword()));

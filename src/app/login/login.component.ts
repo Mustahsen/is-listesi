@@ -10,8 +10,8 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  @ViewChild('f') form: NgForm;
-  invalidLogin = false;
+  model: any = {};
+  errorMessage: string;
 
   constructor(private http: HttpClient, private router: Router, private authenticationService: AuthenticationService) {
   }
@@ -19,18 +19,21 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
-  onLogin(form: NgForm) {
-    const username = form.value.username;
-    const password = form.value.password;
-    (this.authenticationService.authenticate(username, password).subscribe(
+  onSubmit(form: NgForm) {
+    this.authenticationService.authenticate(this.model.username, this.model.password).subscribe(
       data => {
-        this.router.navigate([''])
-        this.invalidLogin = false
+        this.errorMessage = undefined;
+        sessionStorage.setItem('username', this.model.username);
+        sessionStorage.setItem('password', this.model.password);
+        console.log(data);
+        this.router.navigate(['']);
       },
       error => {
-        this.invalidLogin = true
-
-      })
-    );
+        if(error.status == 401){
+          this.errorMessage = "Invalid Credentials";
+        }else{
+          this.errorMessage = "Unknown error occured, please try again later!";
+        }
+      });
   }
 }

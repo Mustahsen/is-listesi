@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  @ViewChild('f') form: NgForm;
+  model: any = {};
   errorMessage: string;
   
   constructor(private userService: UserService, private router: Router) { }
@@ -18,16 +18,21 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {
   }
 
-  onRegister() {
+  onSubmit() {
     const user = new User();
-    user.username = this.form.value.username;
-    user.email = this.form.value.email;
-    user.password = this.form.value.password;
-    this.userService.createUser(user).subscribe(data => {
+    user.username = this.model.username
+    user.email = this.model.email;
+    user.password = this.model.password;
+    this.userService.createUser(user).subscribe(
+      data => {
+        this.errorMessage = undefined;
         this.router.navigate(['/login']);
-      }, err => {
-        console.log(err);
-        this.errorMessage = "Username already exists!";
+      }, error => {
+        if(error.status == 409){
+          this.errorMessage = "Username already exists!";
+        }else{
+          this.errorMessage = "Unknown error occured, please try again later!";
+        }
       }
     )
   }

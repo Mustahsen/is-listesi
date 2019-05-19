@@ -23,8 +23,5 @@ export class UserService {
     headers.append('Accept', 'application/json');
 
     return this.http.post<User>(this.registerUrl, user, { headers })
-        .pipe(
-            catchError(this.handleError('createUser', user))
-        );
   }
 }

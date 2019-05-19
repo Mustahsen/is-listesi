@@ -14,6 +14,7 @@ import { ItemService } from '../../services/item.service';
   styleUrls: ['./task-list.component.css']
 })
 export class TaskListComponent implements OnInit {
+  model: any = {};
   tasks: Task[];
   editTask: Task;
   @ViewChild('f') form: NgForm;
@@ -56,23 +57,23 @@ export class TaskListComponent implements OnInit {
 
   edit(task){
     this.editTask = task;
-    this.form.controls['name'].setValue(this.editTask.name);
+    this.model.name = this.editTask.name;
     this.taskService.sendSelectedTaskMessage(this.editTask);
   }
 
   onSubmit(form: NgForm) {
-    const name = form.value.name;
     if (this.editTask) {
-      this.editTask.name = name;
+      this.editTask.name = this.model.name;
       this.updateTask(this.editTask);
     } else {
-      this.addTask(name);
+      this.addTask(this.model.name);
     }
   }
 
   clearSelection(){
     this.editTask = undefined;
-    this.form.controls.name.reset();
+    this.model.name = undefined;
+    this.form.resetForm();
     this.taskService.sendSelectedTaskMessage(this.editTask);
   }
 }

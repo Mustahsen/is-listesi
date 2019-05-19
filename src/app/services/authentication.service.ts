@@ -16,20 +16,13 @@ export class AuthenticationService {
     authenticate(username, password) {
 
         sessionStorage.removeItem('username');
-        sessionStorage.removeItem('basicauth');
-
-        console.log(username);
 
         const authString = 'Basic ' + btoa(username + ':' + password);
+        sessionStorage.setItem('basicauth', authString);
+
         const headers = new HttpHeaders({Authorization : authString});
 
-        return this.httpClient.get(this.loginUrl, {headers: headers}).pipe(
-            map(userData => {
-                sessionStorage.setItem('username', username);
-                sessionStorage.setItem('basicauth', authString);
-                return userData;
-            })
-        );
+        return this.httpClient.get(this.loginUrl, {headers: headers});
     }
 
     isLoggedIn() {
