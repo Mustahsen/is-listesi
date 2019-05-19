@@ -2,7 +2,7 @@
   <div class="col-xs-12">
     <form (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm">
       <div class="row">
-        <div class="col-sm-4 form-group">
+        <div class="col-sm-6 form-group">
             <label for="name">Name</label> 
             <input type="text" class="form-control" id="name" name="name" 
               [(ngModel)]="model.name" #name="ngModel" [ngClass]="{ 'is-invalid': f.submitted && name.invalid }" required/>
@@ -22,6 +22,18 @@
   </div>
 </div>   
 <hr>
+<div class="row">
+  <div class="col-xs-12">
+      <p *ngIf="!model.addSuccessMessage && !model.updateSuccessMessage && !model.deleteSuccessMessage 
+            && !model.addErrorMessage && !model.updateErrorMessage && !model.deleteErrorMessage">Task List:</p>
+      <p *ngIf="model.addSuccessMessage" class="alert alert-success">Task {{ model.addSuccessMessage }} added successfully</p>
+      <p *ngIf="model.updateSuccessMessage" class="alert alert-success">Task {{ model.updateSuccessMessage }} updated successfully</p>
+      <p *ngIf="model.deleteSuccessMessage" class="alert alert-success">Task {{ model.deleteSuccessMessage }} deleted successfully</p>
+      <p *ngIf="model.addErrorMessage" class="alert alert-danger">Error occurred during adding task {{ model.addErrorMessage }}</p>
+      <p *ngIf="model.updateErrorMessage" class="alert alert-danger">Error occurred during updating task {{ model.updateErrorMessage }}</p>
+      <p *ngIf="model.deleteErrorMessage" class="alert alert-danger">Error occurred during deleting task {{ model.deleteErrorMessage }}</p>
+  </div>
+</div>
 <div class="row">
   <div class="col-xs-12">
     <app-task-item [ngStyle]="{ 'background' : (editTask === taskEl) ? ' #d35400' : 'white', display: 'block'}"

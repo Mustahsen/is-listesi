@@ -3,6 +3,8 @@ package com.mergen.todolist;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,9 +60,14 @@ public class ToDoListController {
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE, value = "/task-list/")
-	public void deleteToDoList(@RequestParam("id") Long id){
-		itemService.getItemsForToDoList(id).forEach(item -> itemService.deleteItemById(item.getId()));
-		toDoListService.deleteToDoListById(id);
+	public ResponseEntity<ToDoList> deleteToDoList(@RequestParam("id") Long id){
+		if(toDoListService.getToDoListById(id) != null) {
+			itemService.getItemsForToDoList(id).forEach(item -> itemService.deleteItemById(item.getId()));
+			toDoListService.deleteToDoListById(id);
+			return new ResponseEntity<ToDoList>(HttpStatus.ACCEPTED);
+		}else {
+			return new ResponseEntity<ToDoList>(HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	

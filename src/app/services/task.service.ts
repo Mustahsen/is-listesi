@@ -47,27 +47,18 @@ export class TaskService{
 
     addTask (task: Task): Observable<Task> {
         const  params = new  HttpParams().set('username', sessionStorage.getItem('username'));
-        return this.http.post<Task>(this.taskListUrl, task, { params })
-            .pipe(
-                catchError(this.handleError('addTask', task))
-            );
+        return this.http.post<Task>(this.taskListUrl, task, { params });
     }
 
     updateTask (task: Task): Observable<Task> {
         const  params = new  HttpParams().set('id', task.id.toString()).set('username', sessionStorage.getItem('username'));
-        return this.http.put<Task>(this.taskListUrl, task, { params })
-            .pipe(
-                catchError(this.handleError('updateTask', task))
-            );
+        return this.http.put<Task>(this.taskListUrl, task, { params });
 
     }
 
     deleteTask(task: Task) {
         const  params = new  HttpParams().set('id', task.id.toString());
-        return this.http.delete<Task>(this.taskListUrl, { params })
-            .pipe(
-                catchError(this.handleError('deleteTask', task))
-            );
+        return this.http.delete<Task>(this.taskListUrl, { params });
     }
 
     fetchTask(task: Task){

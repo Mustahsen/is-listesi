@@ -28,7 +28,7 @@ public class UserController {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/generateUser", method = RequestMethod.POST)
 	@CrossOrigin(origins = "http://localhost:4200")
-	public ResponseEntity<?> createUser(@RequestBody Users user) {
+	public ResponseEntity<Users> createUser(@RequestBody Users user) {
 		if (userService.findUser(user) != null) {
 			return new ResponseEntity(("User with username : " + user.getUsername() + " already exists"), HttpStatus.CONFLICT);
 		}

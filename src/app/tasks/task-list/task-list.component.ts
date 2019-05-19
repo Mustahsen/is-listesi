@@ -36,22 +36,40 @@ export class TaskListComponent implements OnInit {
     if(!name) { return; }
 
     const newTask: Task = new Task(null, name, null);
-    this.taskService.addTask(newTask)
-      .subscribe(task => this.tasks.push(task));
+    this.taskService.addTask(newTask).subscribe(
+      task => {
+        this.model.addSuccessMessage = newTask.name;
+        this.tasks.push(task);
+      },
+      error => {
+        this.model.addErrorMessage = newTask.name;
+      });
   }
 
   updateTask (task: Task) {
     this.taskService.updateTask(this.editTask)
-      .subscribe(task => {
-        const ix = task ? this.tasks.findIndex(t => t.id === task.id) : -1;
-        if (ix > -1) { this.tasks[ix] = task; }
-      });
+      .subscribe(
+        task => {
+          const ix = task ? this.tasks.findIndex(t => t.id === task.id) : -1;
+          if (ix > -1) { this.tasks[ix] = task; }
+          this.model.updateSuccessMessage = task.name;
+        },
+        error => {
+          this.model.updateErrorMessage = task.name;
+        });
     this.editTask = undefined;
   }
 
   deleteTask(): void {
-    this.tasks = this.tasks.filter(t => t !== this.editTask);
-    this.taskService.deleteTask(this.editTask).subscribe();
+    const task = this.editTask;
+    this.taskService.deleteTask(this.editTask).subscribe(
+      response => {
+        this.tasks = this.tasks.filter(t => t !== this.editTask);
+        this.model.deleteSuccessMessage = this.editTask.name;
+      },
+      error => {
+        this.model.deleteErrorMessage = task.name;
+      });
     this.clearSelection();
   }
 
@@ -73,6 +91,10 @@ export class TaskListComponent implements OnInit {
   clearSelection(){
     this.editTask = undefined;
     this.model.name = undefined;
+    this.model.addSuccessMessage = undefined;
+    this.model.updateSuccessMessage = undefined;
+    this.model.addErrorMessage = undefined;
+    this.model.updateErrorMessage = undefined;
     this.form.resetForm();
     this.taskService.sendSelectedTaskMessage(this.editTask);
   }
