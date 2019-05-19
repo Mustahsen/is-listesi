@@ -38,8 +38,6 @@ export class TaskDetailComponent implements OnInit {
     this.taskSubscription = this.taskService.getSelectedTaskMessage()
       .subscribe(
         (task: Task) => {
-          console.log(this.previousTask);
-          console.log(task);
           if(this.previousTask && task){
             if(this.previousTask.id === task.id){
               this.clearSelectedData();
@@ -139,7 +137,6 @@ export class TaskDetailComponent implements OnInit {
 
 
     if(index !== -1 && this.dependentItems[index].status === false && this.model.status === 'true'){
-      console.log(this.dependentItems[index].status);
       this.model.updateStatusMessage = "You can't complete an item before finishing dependent one!";
       return;
     }

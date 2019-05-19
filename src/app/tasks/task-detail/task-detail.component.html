@@ -103,7 +103,7 @@
             <span *ngIf="itemEl.status" class="glyphicon glyphicon-ok"></span>
             <span *ngIf="!itemEl.status" class="glyphicon glyphicon-remove"></span>
           </td>
-          <td><p [ngStyle]="{ 'color' : (editItem === itemEl) ? 'white' : 'black' }">{{ itemEl.dependentItemId }}</p></td>
+          <td><p [ngStyle]="{ 'color' : (editItem === itemEl) ? 'white' : 'black' }">{{ itemNames[itemEl.dependentItemId] }}</p></td>
         </tr>
       </tbody>
     </table>

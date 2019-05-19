@@ -24,7 +24,6 @@ export class LoginComponent implements OnInit {
         this.errorMessage = undefined;
         sessionStorage.setItem('username', this.model.username);
         sessionStorage.setItem('password', this.model.password);
-        console.log(data);
         this.router.navigate(['']);
       },
       error => {
