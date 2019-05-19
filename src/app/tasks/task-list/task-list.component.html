@@ -24,8 +24,6 @@
 <hr>
 <div class="row">
   <div class="col-xs-12">
-      <p *ngIf="!model.addSuccessMessage && !model.updateSuccessMessage && !model.deleteSuccessMessage 
-            && !model.addErrorMessage && !model.updateErrorMessage && !model.deleteErrorMessage">TODO Lists:</p>
       <p *ngIf="model.addSuccessMessage" class="alert alert-success">TODO List {{ model.addSuccessMessage }} added successfully</p>
       <p *ngIf="model.updateSuccessMessage" class="alert alert-success">TODO List {{ model.updateSuccessMessage }} updated successfully</p>
       <p *ngIf="model.deleteSuccessMessage" class="alert alert-success">TODO List {{ model.deleteSuccessMessage }} deleted successfully</p>
@@ -34,10 +32,11 @@
       <p *ngIf="model.deleteErrorMessage" class="alert alert-danger">Error occurred during deleting TODO List {{ model.deleteErrorMessage }}</p>
   </div>
 </div>
-<div class="row">
-  <div class="col-xs-12">
-    <app-task-item [ngStyle]="{ 'background' : (editTask === taskEl) ? ' #d35400' : 'white', display: 'block'}"
-      *ngFor="let taskEl of tasks"
-      [task]="taskEl" (click)="edit(taskEl)"></app-task-item>
-  </div>
+<div class="list-group">
+  <a class="list-group-item list-group-item-action disabled">TO-DO Lists</a>
+  <a href="#" class="list-group-item list-group-item-action" *ngFor="let taskEl of tasks" (click)="edit(taskEl)"
+  [ngStyle]="{ 'background' : (editTask === taskEl) ? '#337AB7' : 'white', display: 'block'}">
+  <p [ngStyle]="{ 'color' : (editTask === taskEl) ? 'white' : 'black' }">{{ taskEl.name }}</p>
+  </a>
 </div>
+

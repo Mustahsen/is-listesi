@@ -94,15 +94,16 @@
       </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let itemEl of items" class="text-center" (click)="onEditItem(itemEl)" [ngStyle]="{ 'background' : (editItem === itemEl) ? ' #d35400' : 'white'}">
-          <td>{{ itemEl.name }}</td>
-          <td>{{ itemEl.deadline |  date: 'dd.MM.yyyy' }}</td>
-          <td>{{ itemEl.description }}</td>
+        <tr *ngFor="let itemEl of items" class="text-center" (click)="onEditItem(itemEl)" 
+          [ngStyle]="{ 'background' : (editItem === itemEl) ? '#337AB7' : 'white' }">
+          <td><p [ngStyle]="{ 'color' : (editItem === itemEl) ? 'white' : 'black' }">{{ itemEl.name }}</p></td>
+          <td><p [ngStyle]="{ 'color' : (editItem === itemEl) ? 'white' : 'black' }">{{ itemEl.deadline |  date: 'dd.MM.yyyy' }}</p></td>
+          <td><p [ngStyle]="{ 'color' : (editItem === itemEl) ? 'white' : 'black' }">{{ itemEl.description }}</p></td>
           <td>
             <span *ngIf="itemEl.status" class="glyphicon glyphicon-ok"></span>
             <span *ngIf="!itemEl.status" class="glyphicon glyphicon-remove"></span>
           </td>
-          <td>{{ itemEl.dependentItemId }}</td>
+          <td><p [ngStyle]="{ 'color' : (editItem === itemEl) ? 'white' : 'black' }">{{ itemEl.dependentItemId }}</p></td>
         </tr>
       </tbody>
     </table>

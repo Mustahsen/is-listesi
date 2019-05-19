@@ -92,7 +92,7 @@ export class TaskDetailComponent implements OnInit {
     item.name = this.model.name;
     item.deadline = this.model.deadline;
     item.status = this.model.status;
-    item.dependentItemId = this.model.dependentItemId;
+    item.dependentItemId = this.model.dependentItemId == 0 ? undefined : this.model.dependentItemId;
 
     this.itemService.updateItem(task, item).subscribe(
       response => {
@@ -135,7 +135,7 @@ export class TaskDetailComponent implements OnInit {
     if (this.editItem) {
       this.updateItem(this.task, this.editItem);
     } else {
-      this.addItem(this.model.name, this.model.deadline, this.model.description, this.model.status, this.model.dependentItemId);
+      this.addItem(this.model.name, this.model.deadline, this.model.description, this.model.status, this.model.dependentItemId == 0 ? undefined : this.model.dependentItemId );
     }
   }
 
