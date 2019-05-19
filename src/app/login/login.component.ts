@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    (this.authenticationService.authenticate(this.model.username, this.model.password).subscribe(
+    this.authenticationService.authenticate(this.model.username, this.model.password).subscribe(
       data => {
         this.errorMessage = undefined;
         sessionStorage.setItem('username', this.model.username);
@@ -34,7 +34,6 @@ export class LoginComponent implements OnInit {
         }else{
           this.errorMessage = "Unknown error occured, please try again later!";
         }
-      })
-    );
+      });
   }
 }

@@ -1,22 +1,19 @@
 <div class="row">
   <div class="col-xs-12">
-    <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+    <form (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm">
       <div class="row">
         <div class="col-sm-4 form-group">
-          <label for="name">Name</label>
-          <input
-            type="text"
-            id="name"
-            class="form-control"
-            name="name"
-            ngModel
-            required
-            >
+            <label for="name">Name</label> 
+            <input type="text" class="form-control" id="name" name="name" 
+              [(ngModel)]="model.name" #name="ngModel" [ngClass]="{ 'is-invalid': f.submitted && name.invalid }" required/>
+            <div *ngIf="f.submitted && name.invalid" class="invalid-feedback alert alert-danger">
+              <div *ngIf="name.errors.required">Name is required</div>
+            </div>
         </div>
       </div>
       <div class="row">
         <div class="col-xs-12">
-          <button class="btn btn-success" type="submit" [disabled]="!f.valid">{{ editTask ? 'Update' : 'Add' }}</button>
+          <button class="btn btn-success" type="submit">{{ editTask ? 'Update' : 'Add' }}</button>
           <button class="btn btn-danger" type="button" (click)="deleteTask()" *ngIf="editTask">Delete</button>
           <button class="btn btn-primary" type="button" (click)="clearSelection()">Clear</button>
         </div>
