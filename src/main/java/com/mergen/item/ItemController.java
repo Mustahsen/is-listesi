@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mergen.todolist.ToDoList;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 public class ItemController {
 	
 	@Autowired

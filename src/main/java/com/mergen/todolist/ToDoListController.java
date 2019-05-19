@@ -15,7 +15,7 @@ import com.mergen.user.UserService;
 import com.mergen.user.Users;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 public class ToDoListController {
 	
 	
@@ -33,7 +33,7 @@ public class ToDoListController {
 		return toDoListService.getAllToDoLists();
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/task-lists/")
+	@RequestMapping(method = RequestMethod.GET, value = "/task-list/user/")
 	public List<ToDoList> getAllToDoListsForUser(@RequestParam("username") String username){
 		return toDoListService.getToDoListsForUser(userService.findUser(new Users(null, username, null, null, null, null)));
 	}

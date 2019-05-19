@@ -31,7 +31,7 @@ export class TaskService{
     getTasksForUser (): Observable<Task[]> {
         const username = sessionStorage.getItem('username');
         const  params = new  HttpParams().set('username', username);
-        return this.http.get<Task[]>(this.taskListUrl + 's/', { params })
+        return this.http.get<Task[]>(this.taskListUrl + 'user/', { params })
             .pipe(
                 catchError(this.handleError('getTasks', []))
             );
