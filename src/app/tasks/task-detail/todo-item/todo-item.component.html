@@ -10,7 +10,8 @@
         <p>{{ item.deadline |  date: 'dd.MM.yyyy' }}</p>
     </div>
     <div class="list-group-item-text col-sm-3">
-        <p>{{ item.status ? 'Complete' : 'Incomplete'}} </p>
+        <p *ngIf="item.status" class="alert alert-success">Complete</p>
+        <p *ngIf="!item.status" class="alert alert-danger">Incomplete</p>
     </div>
     <div class="list-group-item-text col-sm-3">
         <p>{{ dependentItem.name }} </p>

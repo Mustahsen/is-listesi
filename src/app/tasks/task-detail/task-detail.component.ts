@@ -39,12 +39,14 @@ export class TaskDetailComponent implements OnInit {
             this.dependentItems = this.task.itemList;
             this.itemService.sendItemsMessage(this.task.itemList);
           }
+          this.onClear();
         }
     );
     this.ItemSubscription = this.itemService.getItemsMessage()
       .subscribe(
         (items: Item[]) => {
           this.items = items;
+          this.dependentItems = this.items;
         }
       );
   }
@@ -74,10 +76,11 @@ export class TaskDetailComponent implements OnInit {
 
     this.itemService.updateItem(task, item).subscribe(
       response => {
-        const ix = item ? this.task.itemList.findIndex(i => i.id === item.id) : -1;
+        const ix = item ? this.task.itemList.findIndex(i => i.id.toString() === item.id.toString()) : -1;
         if (ix > -1) { 
           this.model.updateSuccessMessage = oldName + ' => ' + item.name;
           this.task.itemList[ix] = item; 
+          this.taskService.fetchTask(this.task);
         }
       },
       error => {
@@ -100,11 +103,12 @@ export class TaskDetailComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    const index = this.model.dependentItemId ? this.dependentItems.findIndex(item => item.id.toString() === this.model.dependentItemId) : -1;
-    const depentendItem = index == -1 ? undefined : this.dependentItems[index];
+    const index = this.model.dependentItemId ? this.dependentItems.findIndex(item => item.id.toString() === this.model.dependentItemId.toString()) : -1;
 
-    if(depentendItem && !depentendItem.status && this.model.status == false){
-      this.model.updateStatusMessage = "You can't complete an item before finishing dependent one!"
+
+    if(index !== -1 && this.dependentItems[index].status === false && this.model.status === 'true'){
+      console.log(this.dependentItems[index].status);
+      this.model.updateStatusMessage = "You can't complete an item before finishing dependent one!";
       return;
     }
 
@@ -116,15 +120,20 @@ export class TaskDetailComponent implements OnInit {
   }
 
   onEditItem(item){
-    this.editItem = item;
-    this.form.controls['name'].setValue(this.editItem.name);
-    this.form.controls['deadline'].setValue(this.editItem.deadline);
-    this.form.controls['status'].setValue(this.editItem.status);
-    this.form.controls['dependentItemId'].setValue(this.editItem.dependentItemId);
+    if(item === this.editItem){
+      this.editItem == undefined;
+      this.onClear();
+    }else{
+      this.editItem = item;
+      this.form.controls['name'].setValue(this.editItem.name);
+      this.form.controls['deadline'].setValue(this.editItem.deadline);
+      this.form.controls['status'].setValue(this.editItem.status);
+      this.form.controls['dependentItemId'].setValue(this.editItem.dependentItemId);
+  
+      this.dependentItems = this.items.filter(i => i.id !== this.editItem.id);
 
-    this.dependentItems = this.items.filter(i => i.id !== this.editItem.id);
-
-    this.itemService.sendSelectedItemMessage(this.editItem);
+      this.itemService.sendSelectedItemMessage(this.editItem);
+    }
   }
 
   onClear(){
