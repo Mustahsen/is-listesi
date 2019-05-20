@@ -48,7 +48,7 @@ Angular:
 	src\app\services\task.service.ts
 	src\app\services\user.service.ts
 
-This 4 service calls https://todo-app-spring-boot-angular.herokuapp.com for api calls since that is the address normally used. For test environment the links in these services must be changed back to localhost.
+This 4 service calls https://todo-app-spring-boot-angular.herokuapp.com for api calls since that is the address normally used. For test environment the links in these services must be changed back to localhost (If local Spring Boot server is used).
 
 Spring Boot:
 
@@ -62,4 +62,4 @@ These 3 parameters must be changed for test environment or DB credential can be 
 
 PostgreSQL:
 
-	Right now spring.jpa.hibernate.ddl-auto=validate parameter is at validate to prevent data loss at production but for first time setup and test environment it can changed back to spring.jpa.hibernate.ddl-auto=create to let Spring handle table creation. Incase you want to create db manually. Db.sql can be found at files
+Right now spring.jpa.hibernate.ddl-auto=validate parameter is at validate to prevent data loss at production but for first time setup and test environment it can changed back to spring.jpa.hibernate.ddl-auto=create to let Spring handle table creation. Incase you want to create db manually. Db.sql can be found at repo
