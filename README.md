@@ -48,7 +48,7 @@ Angular:
 	src\app\services\task.service.ts
 	src\app\services\user.service.ts
 
-This 4 service calls https://todo-app-spring-boot-angular.herokuapp.com for api calls since that is the address normally used. For test environment the links in these services must be changed back to localhost (If local Spring Boot server is used).
+This 4 services call https://todo-app-spring-boot-angular.herokuapp.com for api calls. For test environment the links in these services must be changed back to localhost (If local Spring Boot server is used).
 
 Spring Boot:
 
@@ -58,7 +58,7 @@ Spring Boot:
 	spring.datasource.username=${JDBC_DATABASE_USERNAME}
 	spring.datasource.password=${JDBC_DATABASE_PASSWORD}
 
-These 3 parameters must be changed for test environment or DB credential can be put into path variable with there variable names.
+These 3 parameters must be changed for test environment or DB credentials can be put into system path variables with this variable names.
 
 PostgreSQL:
 
